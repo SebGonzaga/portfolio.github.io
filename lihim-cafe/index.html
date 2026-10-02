@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lihim Café | Your quiet calm in the south</title>
+<meta name="description" content="Lihim Café is a hidden garden café inside Gunita Villas and Pavilion, Santo Tomas, Batangas. Steaks, Filipino classics, weekend breakfast and coffee, minutes from Padre Pio Shrine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('lihimIntro'))document.documentElement.classList.add('no-intro')}catch(e){}</script>
+<noscript><style>#intro{display:none}.js .rv,.js .hr{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="leaf" viewBox="0 0 24 24"><path d="M4 20C4 9 11 3 21 3c0 10-6 17-15 17" fill="currentColor"/><path d="M4 20 15 9" stroke="#fff" stroke-opacity=".35" stroke-width="1" fill="none"/></symbol></svg>
+<div id="intro" aria-hidden="true">
+  <div class="intro-inner">
+    <span class="script intro-word">lihim</span>
+    <span class="intro-line"></span>
+    <span class="intro-cafe">café</span>
+  </div>
+</div>
+<div id="progress" aria-hidden="true"></div>
+
+<header id="nav">
+  <a class="mark" href="#home" aria-label="Lihim Café home"><span class="script">lihim</span><small>café</small></a>
+  <span class="status"><i id="status-dot"></i><span id="status-text">Checking…</span></span>
+  <nav class="links">
+    <a href="#about">About</a><a href="#house">House favorites</a><a href="#menu">Menu</a><a href="#visit">Visit</a>
+  </nav>
+  <button id="hamburger" aria-label="Open menu" aria-expanded="false">Menu</button>
+</header>
+<div id="mobile-menu">
+  <a href="#about">About</a><a href="#house">House favorites</a><a href="#menu">Menu</a><a href="#visit">Visit</a>
+</div>
+
+<section id="home" class="hero">
+  <div class="hero-bg"><img src="img/steak-ribeye.jpg" alt="Grilled ribeye steak with greens on a dark plate" fetchpriority="high"></div>
+  <div class="leaves" aria-hidden="true">
+    <svg style="--x:12%;--t:19s;--dl:4s;--s:26px"><use href="#leaf"/></svg>
+    <svg style="--x:30%;--t:24s;--dl:9s;--s:18px"><use href="#leaf"/></svg>
+    <svg style="--x:52%;--t:21s;--dl:6s;--s:30px"><use href="#leaf"/></svg>
+    <svg style="--x:68%;--t:26s;--dl:12s;--s:20px"><use href="#leaf"/></svg>
+    <svg style="--x:84%;--t:22s;--dl:7s;--s:24px"><use href="#leaf"/></svg>
+    <svg style="--x:92%;--t:28s;--dl:15s;--s:16px"><use href="#leaf"/></svg>
+  </div>
+  <div class="hero-copy">
+    <p class="script big hr" style="--d:0s">lihim</p>
+    <h1 class="hr" style="--d:.2s">Your quiet calm in the south.</h1>
+    <p class="lede hr" style="--d:.4s">A hidden garden café inside Gunita Villas, ten minutes from Padre Pio Shrine.</p>
+    <div class="cta hr" style="--d:.6s">
+      <a class="btn solid" href="#menu">See the menu</a>
+      <button class="btn ghost" id="chat-toggle-hero">Ask the café</button>
+    </div>
+  </div>
+  <a class="scroll-cue hr" style="--d:1.2s" href="#about" aria-label="Scroll down"><span></span></a>
+</section>
+
+<section id="about" class="about">
+  <figure class="arch"><img src="img/steak-mash.jpg" alt="Sliced steak with mashed potato and roasted tomatoes" loading="lazy"></figure>
+  <div class="about-copy">
+    <h2 class="split">Lihim means secret.</h2>
+    <p class="rv" style="--i:1">You reach us through the villas, past tall trees and ornamental plants, and the road noise fades. Inside, glass panels let the garden in. Outside, you can eat al fresco in the Batangas breeze.</p>
+    <p class="rv" style="--i:2">The kitchen cooks slow and generously: Angus beef braised for hours, baby back ribs, Filipino classics like belly kare-kare, and a weekend breakfast worth waking up for.</p>
+    <ul class="facts">
+      <li class="rv" style="--i:3">Air-conditioned indoor dining</li>
+      <li class="rv" style="--i:4">Al fresco garden seating</li>
+      <li class="rv" style="--i:5">Parking on site</li>
+      <li class="rv" style="--i:6">Pet menu for four-legged guests</li>
+    </ul>
+  </div>
+</section>
+
+<section id="house" class="house">
+  <h2 class="split">House favorites</h2>
+  <div class="cards">
+    <article class="card rv" style="--i:0">
+      <div class="ph"><img data-par src="img/delmonico.jpg" alt="Delmonico steak announcement with a sliced steak on a plate" loading="lazy"></div>
+      <h3>Delmonico steak</h3><p>The 400g USDA Prime Delmonico butcher's cut is back on the menu.</p>
+    </article>
+    <article class="card rv" style="--i:1">
+      <div class="ph"><img data-par src="img/weekend-breakfast.jpg" alt="Weekend breakfast spread with silog, ube champorado and a latte" loading="lazy"></div>
+      <h3>Weekend breakfast</h3><p>Saturday and Sunday from 7:00 to 11:00 am. Silog plates, ube champorado and pancakes.</p>
+    </article>
+    <article class="card rv" style="--i:2">
+      <div class="ph"><img data-par src="img/group-sets.jpg" alt="Group sets with platters of Filipino dishes" loading="lazy"></div>
+      <h3>Group sets</h3><p>The Everyday Spread and the Celebration Spread each feed four. Food trays are available for parties.</p>
+    </article>
+  </div>
+</section>
+
+<section id="menu" class="menu">
+  <div class="menu-head">
+    <div><h2 class="split">The menu</h2><p>Tap a page to enlarge it. Food and drinks are subject to a 10% service charge.</p></div>
+    <div class="arrows"><button id="m-left" aria-label="Scroll left">‹</button><button id="m-right" aria-label="Scroll right">›</button></div>
+  </div>
+  <div id="menu-scroll">
+    <button class="page rv"><img src="img/menu-coffee.jpg" alt="Coffee, non-coffee and frappe menu" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-drinks.jpg" alt="Cakes, pastries, tea, juice and shakes" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-breakfast.jpg" alt="Filipino breakfast, waffles and pancakes" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-starters.jpg" alt="Starters, salads, pizza and soup" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-mains.jpg" alt="Filipino classics and mains" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-rice.jpg" alt="Rice meals and pasta" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-steaks.jpg" alt="Steaks, roasts and sides" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-trays.jpg" alt="Food trays for parties" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-alcohol.jpg" alt="Soda, beer, wine and spirits" loading="lazy"></button>
+    <button class="page rv"><img src="img/menu-pet.jpg" alt="Pet menu" loading="lazy"></button>
+  </div>
+</section>
+
+<section id="visit" class="visit">
+  <div>
+    <h2 class="split">Find the secret.</h2>
+    <p class="addr rv">Lihim Café, inside Gunita Villas and Pavilion<br>Santo Tomas–Lipa Road, Santo Tomas, Batangas</p>
+    <p class="hint rv" style="--i:1">Pin “Gunita Villas and Pavilion” in Google Maps.</p>
+    <a class="btn solid rv" style="--i:2" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Gunita+Villas+and+Pavilion+Santo+Tomas+Batangas">Open in Google Maps</a>
+  </div>
+  <dl class="hours">
+    <div class="rv" style="--i:0"><dt>Monday to Friday</dt><dd>11:00 am – 9:00 pm</dd></div>
+    <div class="rv" style="--i:1"><dt>Saturday and Sunday</dt><dd>7:00 am – 9:00 pm</dd></div>
+    <div class="rv" style="--i:2"><dt>Weekend breakfast</dt><dd>7:00 – 11:00 am</dd></div>
+  </dl>
+</section>
+
+<footer>
+  <a class="mark" href="#home"><span class="script wipe">lihim</span><small>café</small></a>
+  <p><a target="_blank" rel="noopener" href="https://www.facebook.com/lihimcafe">Facebook</a> · <a target="_blank" rel="noopener" href="https://www.instagram.com/lihimcafe">Instagram</a> · <a target="_blank" rel="noopener" href="https://www.tiktok.com/@lihimcafe">TikTok</a></p>
+  <p class="fine">© 2026 Lihim Café, Santo Tomas, Batangas</p>
+</footer>
+
+<button id="chat-fab" aria-label="Open chat">Ask</button>
+<div id="chat-window" class="chat-hidden" role="dialog" aria-label="Lihim Café assistant">
+  <div class="chat-top"><div><strong>Lihim assistant</strong><small>Ask about hours, dishes and the café</small></div><button id="chat-close" aria-label="Close chat">×</button></div>
+  <div id="chat-messages"></div>
+  <div class="chat-in"><input id="chat-input" placeholder="Ask about the menu or hours"><button id="chat-send" aria-label="Send">Send</button></div>
+</div>
+
+<div id="lightbox" hidden><button id="lb-close" aria-label="Close">×</button><img id="lb-img" alt=""></div>
+<script src="script.js" defer></script>
+</body>
+</html>

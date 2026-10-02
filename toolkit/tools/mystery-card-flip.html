@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mystery Card Flip Name Picker — Pick &amp; Race</title>
+<meta name="description" content="Flip through a deck of mystery cards, faster and faster, until one turns over and reveals your pick.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<style>
+  .tool-wrap { display: grid; grid-template-columns: 320px 1fr; gap: 28px; padding: 32px 0 64px; align-items: start; }
+  .panel { border: var(--border); border-radius: var(--radius); background: var(--paper); padding: 20px; position: sticky; top: 20px; }
+  .panel label { display: block; font-weight: 600; font-size: 0.85rem; margin: 16px 0 6px; }
+  .panel label:first-of-type { margin-top: 0; }
+  textarea { width: 100%; min-height: 140px; border: var(--border); border-radius: 8px; padding: 10px; font-family: var(--font-body); font-size: 0.9rem; resize: vertical; }
+  input[type="range"] { width: 100%; }
+  .toggle-row { display: flex; align-items: center; gap: 8px; margin: 14px 0; font-size: 0.88rem; }
+  .panel .btn { width: 100%; justify-content: center; margin-top: 18px; }
+  .duration-val { font-family: var(--font-display); font-weight: 700; }
+
+  .stage {
+    border: var(--border); border-radius: var(--radius);
+    background: radial-gradient(ellipse at 50% 28%, #2f6f55, #163d2c 78%);
+    padding: 24px;
+    min-height: 460px;
+    position: relative; overflow: hidden;
+  }
+  .stage.projector { background: radial-gradient(ellipse at 50% 28%, #12291d, #060f0a 78%); }
+  .stage.finished-glow { box-shadow: 0 0 0 4px var(--pencil), 0 0 44px rgba(239,185,60,0.55) inset; }
+
+  /* Felt-table texture + a soft vignette so the deck reads as sitting on a
+     surface, not floating on a flat color. */
+  .felt-texture { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(120deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 5px);
+  }
+  .felt-vignette { position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(0,0,0,0.35) 100%);
+  }
+
+  .stage-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; position: relative; z-index: 5; }
+  .stage-header .status { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: #fdf6e6; }
+  .stage-header .clock { font-family: var(--font-display); font-size: 1.4rem; font-variant-numeric: tabular-nums; color: var(--pencil); }
+
+  .card-arena { display: flex; align-items: center; justify-content: center; gap: 44px; min-height: 340px; position: relative; z-index: 5; perspective: 1000px; }
+
+  /* A fanned pile of face-down cards sitting beside the reveal slot — purely
+     decorative "rest of the deck" so the table doesn't feel empty. */
+  .deck-pile { position: relative; width: 84px; height: 118px; }
+  .deck-pile .deck-card {
+    position: absolute; inset: 0; border-radius: 9px;
+    background: repeating-linear-gradient(45deg, #1e2a45 0 7px, #26345a 7px 14px);
+    border: 2px solid var(--pencil); box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  }
+  .deck-pile .deck-card::after { content: "✦"; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; color: rgba(239,185,60,0.55); }
+  .deck-pile .deck-card:nth-child(1) { transform: rotate(-7deg) translate(-3px, 2px); }
+  .deck-pile .deck-card:nth-child(2) { transform: rotate(-2deg) translate(0, 1px); }
+  .deck-pile .deck-card:nth-child(3) { transform: rotate(4deg); }
+
+  .card-slot { width: 190px; height: 260px; position: relative; perspective: 1300px; }
+  .flip-card {
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  /* A real two-sided card: back and front are separate faces, each hidden
+     when it's turned away from the viewer, instead of one element whose
+     background image gets swapped mid-transition. */
+  .card-face {
+    position: absolute; inset: 0; border-radius: 14px;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+  }
+  .card-back {
+    background: repeating-linear-gradient(45deg, #1e2a45 0 9px, #26345a 9px 18px);
+    border: 4px solid var(--marker); font-size: 2.6rem;
+  }
+  .card-front {
+    background: var(--paper); border: 4px solid var(--pencil);
+    transform: rotateY(180deg);
+  }
+  .flip-card.locked .card-front { border-color: var(--pencil); box-shadow: 0 8px 26px rgba(239,185,60,0.55), 0 0 0 3px rgba(239,185,60,0.35); }
+  .card-name {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-align: center;
+    padding: 0 12px; color: var(--ink); line-height: 1.25; word-break: break-word;
+  }
+
+  .winner-banner { margin-top: 14px; border: var(--border); border-radius: var(--radius); background: var(--pencil-dim); padding: 14px 18px; font-family: var(--font-display); font-size: 1.15rem; display: none; animation: winnerPop 0.5s cubic-bezier(.2,1.4,.4,1); }
+  @keyframes winnerPop { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  .winner-banner.show { display: block; }
+  .history { margin-top: 16px; font-size: 0.82rem; color: var(--ink-soft); }
+  .history .chip { display: inline-block; border: 1px solid var(--ink); border-radius: 999px; padding: 2px 10px; margin: 3px 4px 0 0; }
+
+  @media (max-width: 860px) {
+    .tool-wrap { grid-template-columns: 1fr; }
+    .panel { position: static; }
+    .card-arena { gap: 20px; }
+    .deck-pile { width: 60px; height: 84px; }
+    .card-slot { width: 150px; height: 210px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip-card, .stage { transition: none !important; animation: none !important; }
+  }
+</style>
+<link rel="stylesheet" href="../assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="mark"></span>Pick &amp; Race</a>
+    <nav>
+      <a href="../index.html#tools">All tools</a>
+      <a href="duck-race.html">Duck Race</a>
+      <a href="ball-drop.html">Ball Drop</a>
+      <a href="slot-machine.html">Slot Machine</a>
+      <a href="spinning-wheel.html">Wheel</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 style="margin-top:28px;">Mystery Card Flip Name Picker</h1>
+  <p>A deck of face-down cards flips through the names, faster at first, then slower — the one it lands on is your pick.</p>
+
+  <div class="tool-wrap">
+    <div class="panel">
+      <label for="names">Names (one per line)</label>
+      <textarea id="names">Ava
+Liam
+Noor
+Diego
+Priya
+Mateo
+Yuki
+Isla</textarea>
+
+      <label for="duration">Flip length: <span class="duration-val" id="durationVal">6s</span></label>
+      <input type="range" id="duration" min="3" max="12" value="6">
+
+      <div class="toggle-row">
+        <input type="checkbox" id="noRepeat">
+        <label for="noRepeat" style="margin:0;">No repeats until everyone's had a turn</label>
+      </div>
+      <div class="toggle-row">
+        <input type="checkbox" id="projector">
+        <label for="projector" style="margin:0;">Projector mode (big/high-contrast)</label>
+      </div>
+
+      <button class="btn marker" id="startBtn">Flip the deck</button>
+      <button class="btn ghost small" id="resetHistory" style="margin-top:8px; width:100%;">Reset no-repeat history</button>
+    </div>
+
+    <div>
+      <div class="stage" id="stage">
+        <div class="felt-texture"></div>
+        <div class="felt-vignette"></div>
+        <div class="stage-header">
+          <span class="status" id="statusText" aria-live="polite">Ready when you are</span>
+          <span class="clock" id="clock">–</span>
+        </div>
+        <div class="card-arena" id="cardArena">
+          <div class="deck-pile"><div class="deck-card"></div><div class="deck-card"></div><div class="deck-card"></div></div>
+          <div class="card-slot">
+            <div class="flip-card" id="flipCard">
+              <div class="card-face card-back">✨</div>
+              <div class="card-face card-front"><span class="card-name" id="cardName"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="winner-banner" id="winnerBanner" aria-live="polite" aria-atomic="true"></div>
+      <div class="history" id="historyList"></div>
+    </div>
+  </div>
+
+  <section class="about-tool" aria-labelledby="about-mystery-card-flip">
+    <h2 id="about-mystery-card-flip">About the Mystery Card Flip Name Picker</h2>
+    <p>Your names are hidden on a deck of mystery cards. Press Flip the deck and the cards flip faster and faster until one turns over and reveals the pick. The flip length slider controls how long the flipping lasts.</p>
+    <h3>Ways to use it in class</h3>
+    <ul><li>Pick a student for a surprise question.</li><li>Choose who plays first in a card game.</li><li>Run a calm, quiet reveal for a smaller group.</li><li>Decide the order for oral reports.</li></ul>
+    <h3>A lesson idea</h3>
+    <p>Make each card a question by listing question topics instead of names, then flip to see which comes up. The mystery makes a plain list of discussion prompts feel exciting. You can also use it for show-and-tell, deciding which student shares first while the class waits for the reveal.</p>
+    <h3>Good to know</h3>
+    <p>The reveal can build suspense with a slower flip, or run fast when time is short. Turn on <strong>No repeats</strong> and everyone gets a turn before any name comes up a second time, which keeps it fair over a whole week. <strong>Projector mode</strong> switches to bigger, higher-contrast graphics so the back row can see the result.</p>
+    <h3>Questions teachers ask</h3>
+    <dl><dt>Are the cards shuffled fairly?</dt><dd>Yes. The pick is made by the same fair draw as the rest of the tools.</dd><dt>Can I see all the names face-up?</dt><dd>The pick is only revealed at the end of the flip, so nobody can guess the result early.</dd></dl>
+    <p class="about-more">More tools: <a href="../index.html#tools">see all Pick &amp; Race pickers</a> · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy</a></p>
+  </section>
+
+  <aside class="ad-slot" data-ad="tool-bottom" aria-label="Advertisement"></aside>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">Pick &amp; Race — built for classrooms. No account needed, ever. · <a href="../about.html">About</a> · <a href="../privacy.html">Privacy policy</a></div>
+</footer>
+
+
+<script src="../assets/js/race-engine.js"></script>
+<script src="../assets/js/sound-fx.js"></script>
+<script src="../assets/js/suspense-fx.js"></script>
+<script>
+  const namesEl = document.getElementById("names");
+  const durationEl = document.getElementById("duration");
+  const durationVal = document.getElementById("durationVal");
+  const noRepeatEl = document.getElementById("noRepeat");
+  const projectorEl = document.getElementById("projector");
+  const startBtn = document.getElementById("startBtn");
+  const resetHistoryBtn = document.getElementById("resetHistory");
+  const stage = document.getElementById("stage");
+  const cardArena = document.getElementById("cardArena");
+  const flipCard = document.getElementById("flipCard");
+  const cardName = document.getElementById("cardName");
+  const statusText = document.getElementById("statusText");
+  const clock = document.getElementById("clock");
+  const winnerBanner = document.getElementById("winnerBanner");
+  const historyList = document.getElementById("historyList");
+
+  let alreadyWon = [];
+  let flipping = false;
+  let rotation = 0; // total accumulated rotateY degrees — only ever moves forward
+
+  durationEl.addEventListener("input", () => { durationVal.textContent = durationEl.value + "s"; });
+  projectorEl.addEventListener("change", () => stage.classList.toggle("projector", projectorEl.checked));
+  resetHistoryBtn.addEventListener("click", () => { alreadyWon = []; renderHistory(); });
+
+  function getNames() {
+    return namesEl.value.split(/[\n,]/).map((s) => s.trim()).filter(Boolean);
+  }
+  function renderHistory() {
+    if (!alreadyWon.length) { historyList.innerHTML = ""; return; }
+    historyList.innerHTML = "Already won this round: " +
+      alreadyWon.map((n) => `<span class="chip">${escapeHtml(n)}</span>`).join("");
+  }
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  }
+
+  /**
+   * The real, weighted flip: always turns the card to its opposite face
+   * (every call adds an odd multiple of 180°, so back/front strictly
+   * alternate — rotation never reverses, like a card actually being
+   * flicked forward rather than snapped back and forth). `spins` adds
+   * extra full rotations purely for drama on the big reveal. A lift +
+   * scale arc through the midpoint gives it some physical weight instead
+   * of a flat rotation, and the easing decelerates like something with
+   * actual mass landing back down.
+   */
+  function weightedFlip({ spins = 0, duration = 0.45, lift = 16, scaleUp = 1.05 } = {}) {
+    return new Promise((resolve) => {
+      const from = rotation;
+      rotation += 180 + spins * 360;
+      const to = rotation;
+      const mid = (from + to) / 2;
+      const anim = flipCard.animate([
+        { transform: `translateY(0px) scale(1) rotateY(${from}deg)`, offset: 0 },
+        { transform: `translateY(-${lift}px) scale(${scaleUp}) rotateY(${mid}deg)`, offset: 0.5 },
+        { transform: `translateY(0px) scale(1) rotateY(${to}deg)`, offset: 1 },
+      ], { duration: Math.max(60, duration * 1000), easing: "cubic-bezier(.22,.68,.2,1)", fill: "forwards" });
+      anim.onfinish = () => resolve();
+    });
+  }
+
+  /**
+   * A quick "riffle" while staying mystery-side-up: a small back-and-forth
+   * tilt that never passes the 90° mark, so the back face never actually
+   * turns away from the viewer. This is what "faster at first, then
+   * slower" now looks like — real, escalating-then-settling motion instead
+   * of a name silently changing underneath a static graphic.
+   */
+  function flutter(duration, amplitude) {
+    return new Promise((resolve) => {
+      const base = rotation;
+      const anim = flipCard.animate([
+        { transform: `translateY(0px) rotateY(${base}deg)`, offset: 0 },
+        { transform: `translateY(-4px) rotateY(${base + amplitude}deg)`, offset: 0.55 },
+        { transform: `translateY(0px) rotateY(${base}deg)`, offset: 1 },
+      ], { duration: Math.max(50, duration * 1000), easing: "ease-in-out", fill: "forwards" });
+      anim.onfinish = () => resolve();
+    });
+  }
+
+  /**
+   * The tease: rotates well past the halfway point — far enough that the
+   * front face's backface-visibility lets it become visible — then
+   * straight back. At that steep an angle the name is heavily foreshortened
+   * and only on screen for an instant, so it reads as "did I just see a
+   * name?" rather than an actual reveal. Uses a real (but discardable)
+   * candidate name, never the true winner, so it can't spoil anything.
+   */
+  function peek(name, { angle = 108, duration = 0.5 } = {}) {
+    return new Promise((resolve) => {
+      cardName.textContent = name;
+      const from = rotation;
+      const out = from + angle;
+      const anim = flipCard.animate([
+        { transform: `translateY(0px) scale(1) rotateY(${from}deg)`, offset: 0 },
+        { transform: `translateY(-6px) scale(1.02) rotateY(${out}deg)`, offset: 0.5 },
+        { transform: `translateY(-6px) scale(1.02) rotateY(${out}deg)`, offset: 0.68 },
+        { transform: `translateY(0px) scale(1) rotateY(${from}deg)`, offset: 1 },
+      ], { duration: Math.max(60, duration * 1000), easing: "cubic-bezier(.3,.7,.2,1)", fill: "forwards" });
+      anim.onfinish = () => resolve();
+    });
+  }
+
+  async function runFlip() {
+    if (flipping) return;
+    const roster = getNames();
+    if (roster.length < 2) { statusText.textContent = "Add at least two names first"; return; }
+    flipping = true;
+    winnerBanner.classList.remove("show");
+    stage.classList.remove("finished-glow");
+    flipCard.classList.remove("locked");
+    cardName.textContent = "";
+    rotation = 0;
+    flipCard.style.transform = "rotateY(0deg)";
+
+    const totalDuration = Number(durationEl.value);
+    const result = RaceEngine.run(roster, { duration: totalDuration, noRepeat: noRepeatEl.checked, alreadyWon });
+
+    statusText.textContent = "Shuffling…";
+    await SuspenseFX.countdown(stage, ["READY!", "3", "2", "1", "Flip!"], null, cardArena);
+
+    statusText.textContent = "Flipping through the deck…";
+    SoundFX.drumroll(Math.max(1, totalDuration - 0.6));
+
+    // TIMER CONTRACT: the slider value is exactly when the winner is revealed.
+    // Time is split into a flutter build-up (fast-then-slow, same ease-in
+    // shape as before), 1-2 peek teases near the end, and a fixed-length
+    // final reveal — all scheduled against the real clock, so the total
+    // always lands on the slider regardless of how many peeks fit.
+    const start = performance.now();
+    const tickClock = setInterval(() => {
+      const left = totalDuration - (performance.now() - start) / 1000;
+      clock.textContent = Math.max(0, left).toFixed(1) + "s";
+    }, 50);
+
+    const FINAL_DUR = 0.62;
+    const peekCount = totalDuration >= 5 ? 2 : (totalDuration >= 3.6 ? 1 : 0);
+    const PEEK_DUR = 0.5, PEEK_GAP = 0.2;
+    const reserved = FINAL_DUR + peekCount * (PEEK_DUR + PEEK_GAP);
+    const flutterBudget = Math.max(0.6, totalDuration - reserved);
+
+    const steps = [];
+    let acc = 0, guard = 0;
+    const minStep = 0.05, maxStep = 0.4;
+    while (acc < flutterBudget && guard < 300) {
+      const t = Math.min(1, acc / flutterBudget);
+      const step = minStep + (maxStep - minStep) * Math.pow(t, 2.2);
+      steps.push(step);
+      acc += step;
+      guard++;
+    }
+    const stepSum = steps.reduce((a, b) => a + b, 0) || 1;
+    const stepScale = flutterBudget / stepSum;
+
+    for (const raw of steps) {
+      SoundFX.flutter();   // fwip-fwip-fwip as the deck riffles
+      await flutter(raw * stepScale, 10 + Math.random() * 14);
+    }
+
+    const herrings = RaceEngine.shuffle(result.eligiblePool.filter((n) => n !== result.winner));
+    for (let p = 0; p < peekCount; p++) {
+      statusText.textContent = "Is it…?";
+      SoundFX.uhoh();
+      await peek(herrings[p % herrings.length] || result.winner, { duration: PEEK_DUR });
+      await new Promise((r) => setTimeout(r, PEEK_GAP * 1000));
+    }
+
+    statusText.textContent = "Almost there…";
+    cardName.textContent = result.winner;
+    SoundFX.flipReveal();
+    await weightedFlip({ spins: 1, duration: FINAL_DUR, lift: 20, scaleUp: 1.08 });
+    SuspenseFX.microShake(stage);
+
+    clearInterval(tickClock);
+    clock.textContent = "0.0s";
+    finishFlip(result);
+  }
+
+  function finishFlip(result) {
+    flipping = false;
+    flipCard.classList.add("locked");
+    SuspenseFX.shake(stage, 350);
+    SuspenseFX.winnerSpotlight(stage);
+    stage.classList.add("finished-glow");
+    setTimeout(() => stage.classList.remove("finished-glow"), 1400);
+    statusText.textContent = "Revealed!";
+    clock.textContent = "🃏";
+    winnerBanner.classList.remove("show");
+    void winnerBanner.offsetWidth;
+    winnerBanner.innerHTML = `<span class="wb-eyebrow">🏆 Winner</span><span class="wb-name">🃏 The deck reveals ${escapeHtml(result.winner)}!</span>`;
+    winnerBanner.classList.add("show");
+    if (noRepeatEl.checked) { alreadyWon.push(result.winner); renderHistory(); }
+    const rect = flipCard.getBoundingClientRect();
+    SuspenseFX.burst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  }
+
+  startBtn.addEventListener("click", runFlip);
+</script>
+
+</body>
+</html>
