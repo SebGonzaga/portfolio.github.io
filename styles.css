@@ -998,3 +998,55 @@ a.pv:hover::after{opacity:1;transform:translate(calc(var(--px,0)*14px),calc(var(
 .timeline{margin-left:0;margin-right:0;}
 .nav-cta{white-space:nowrap;}
 @media(min-width:861px){.nav-links{gap:clamp(12px,1.7vw,30px);}.nav-links a{font-size:12.5px;}}
+
+
+/* =====================================================================
+   PROJECT THEMES — each preview borrows the real project's palette + type
+   (html prefix so these win over the dark-mode panel variables)
+   ===================================================================== */
+html .panel[data-style=rain]{--pvbg:#060e1c;--ln:rgba(34,211,238,.17);--ink:#7fe3f0;}
+html .panel[data-style=aure]{--pvbg:#f6f2ea;--ln:rgba(197,160,89,.5);--ink:#9c7a35;}
+html .panel[data-style=lihim]{--pvbg:#2b3524;--ln:rgba(223,227,208,.25);--ink:#e4e8d3;}
+html .panel[data-style=krav]{--pvbg:#111;--ln:rgba(242,217,168,.25);--ink:#f2d9a8;}
+html .panel[data-style=ink]{--pvbg:#f5f3ec;--ln:rgba(43,54,80,.16);--ink:#2b3650;}
+html .panel[data-style=race]{--pvbg:#fbf7ee;--ln:rgba(30,42,69,.18);--ink:#1e2a45;}
+html .panel[data-style=nexus]{--pvbg:#030712;--ln:rgba(56,189,248,.26);--ink:#7dd3fc;}
+html .panel[data-style=block]{--pvbg:#1b1b1f;--ln:rgba(183,155,242,.2);--ink:#d9b8ff;}
+html .panel[data-style=poke]{--pvbg:#0a0b0f;--ln:rgba(255,246,233,.2);--ink:#ffcb05;}
+html .panel[data-style=solar]{--pvbg:#04050d;--ln:rgba(145,149,196,.3);--ink:#f4c77b;}
+
+/* R.A.I.N — radar sweep over a hazard map */
+[data-style=rain] .pv-art{background:radial-gradient(circle at 62% 40%,#22d3ee 0 5px,transparent 6px),conic-gradient(from 20deg at 62% 40%,rgba(34,211,238,.4),transparent 26%),repeating-radial-gradient(circle at 62% 40%,transparent 0 34px,var(--ln) 34px 35px),linear-gradient(var(--ln) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,var(--ln) 1px,transparent 1px) 0 0/28px 28px;}
+[data-style=rain] .pv-art b{font-family:var(--font-body);font-weight:700;letter-spacing:.2em;font-size:clamp(26px,3.6vw,40px);color:#e8f6fb;opacity:1;place-self:end start;margin:0 0 16% 12%;}
+
+/* Auré — ivory, gold hairline frame, spaced Cormorant caps */
+[data-style=aure] .pv-art{background:radial-gradient(circle,rgba(197,160,89,.28) 0 70px,transparent 71px);box-shadow:inset 0 0 0 14px var(--pvbg),inset 0 0 0 15px #C5A059;}
+[data-style=aure] .pv-art b{font-family:'Cormorant Garamond',var(--font-serif);font-weight:600;font-style:normal;text-transform:uppercase;letter-spacing:.34em;font-size:clamp(28px,4vw,44px);color:#333;opacity:1;padding-left:.34em;}
+
+/* Lihim + KRĀV — the real photography, tinted */
+[data-style=lihim] .pv-art{background:linear-gradient(rgba(43,53,36,.45),rgba(43,53,36,.8)),url(assets/previews/lihim.jpg) center/cover;}
+[data-style=lihim] .pv-art b{font-family:'Cormorant Garamond',var(--font-serif);font-weight:500;font-style:normal;text-transform:lowercase;letter-spacing:.01em;font-size:clamp(52px,7.4vw,92px);color:#fbfbf7;opacity:1;}
+[data-style=krav] .pv-art{background:linear-gradient(rgba(10,10,10,.5),rgba(10,10,10,.78)),url(assets/previews/krav.jpg) center/cover;}
+[data-style=krav] .pv-art b{font-weight:700;letter-spacing:.04em;font-size:clamp(46px,6.4vw,82px);color:#fff;opacity:1;}
+
+/* Inkwell — paper notebook, navy ink */
+[data-style=ink] .pv-art b{color:#2b3650;}
+
+/* Pick & Race — mint track, dashed finish line, ducks mid-race */
+[data-style=race] .pv-art{background:radial-gradient(circle at 30% 24%,#efb93c 0 11px,transparent 12px),radial-gradient(circle at 55% 52%,#fff 0 11px,#1e2a45 12px 13px,transparent 14px),radial-gradient(circle at 20% 80%,#35604a 0 11px,transparent 12px),repeating-linear-gradient(0deg,#1e2a45 0 8px,transparent 8px 16px) 84% 0/3px 100% no-repeat,repeating-linear-gradient(0deg,transparent 0 62px,var(--ln) 62px 64px),#dcefe3;}
+[data-style=race] .pv-art b{font-family:'Baloo 2',var(--font-display);font-weight:800;color:#1e2a45;opacity:1;place-self:end start;margin:0 0 10% 12%;}
+
+/* NEXUS AI — near-black, sky + indigo network glow */
+[data-style=nexus] .pv-art{background:radial-gradient(var(--ln) 2px,transparent 2.5px) 0 0/34px 34px,radial-gradient(circle at 50% 50%,rgba(129,140,248,.4) 0 100px,transparent 101px),radial-gradient(circle at 50% 50%,rgba(56,189,248,.22) 0 150px,transparent 151px);}
+[data-style=nexus] .pv-art b{font-family:var(--font-display);font-weight:700;letter-spacing:.14em;color:#e0f2fe;opacity:1;}
+
+/* Minecraft Explorer — VT323 over a purple voxel grid */
+[data-style=block] .pv-art{background:conic-gradient(var(--ln) 25%,transparent 0 50%,var(--ln) 0 75%,transparent 0) 0 0/36px 36px,radial-gradient(circle at 70% 30%,rgba(124,83,201,.45) 0 80px,transparent 81px);}
+[data-style=block] .pv-art b{font-family:'VT323',monospace;font-weight:400;font-size:clamp(46px,6.4vw,78px);letter-spacing:.06em;color:#d9b8ff;opacity:1;}
+
+/* Pokédex — a pokéball on the void */
+[data-style=poke] .pv-art{background:radial-gradient(circle,#fff6e9 0 15px,#231c18 16px 22px,transparent 23px),linear-gradient(#E3350D 0 46%,#231c18 46% 54%,#fff6e9 54%);-webkit-mask:radial-gradient(circle,#000 0 96px,transparent 97px);mask:radial-gradient(circle,#000 0 96px,transparent 97px);}
+
+/* SolarCircuit — gold sun, lavender orbits, italic cream label */
+[data-style=solar] .pv-art{background:repeating-radial-gradient(circle at 50% 50%,transparent 0 34px,var(--ln) 34px 35px),radial-gradient(circle,#F4C77B 0 14px,transparent 15px);}
+[data-style=solar] .pv-art b{font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,38px);color:#EEEBE3;opacity:1;place-self:end center;margin-bottom:12%;}
