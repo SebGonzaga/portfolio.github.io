@@ -11,11 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FAF8F4">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div id="cursor-glow" aria-hidden="true"></div>
 <div id="scroll-progress"></div>
 
 <!-- ============================= NAV ============================= -->
@@ -217,16 +218,18 @@
 </section>
 
 <!-- ============================= PROJECTS ============================= -->
-<section class="section projects-pin" id="projects" style="padding-right:0;padding-left:0;">
-  <div class="container" style="margin-bottom:0;">
+<section class="section" id="projects">
+  <div class="container">
     <div class="section-head reveal">
       <p class="eyebrow">03 / Projects</p>
       <h2 class="section-title">Things I've built.</h2>
-      <p class="section-sub">A mix of AI, systems, and applied programming projects — scroll to browse.</p>
+      <p class="section-sub">Grouped by theme: AI systems, business sites, interactive tools, and coursework.</p>
     </div>
   </div>
 
-  <div class="projects-track" id="projectsTrack">
+  <div class="project-group" style="--h:255">
+    <div class="group-head"><h3 class="group-title">AI &amp; Intelligent Systems</h3><p class="group-sub">Systems that use AI to guide, teach or explain.</p></div>
+    <div class="projects-track">
     <article class="project-card reveal">
       <div class="project-visual">
         <span class="tag-chip">AI SYSTEM</span>
@@ -246,6 +249,50 @@
       </div>
     </article>
 
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">AI VISUAL</span>
+        <i class="fa-solid fa-brain"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">NEXUS AI</h3>
+        <p class="project-desc">An interactive neural network lab that visualizes a prompt travelling through the network before a response.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">Canvas</span>
+          <span class="tech-pill">AI</span>
+        </div>
+        <div class="project-links">
+          <a href="./nexus-ai/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-book-open"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Inkwell Study Notebook</h3>
+        <p class="project-desc">A PDF study notebook with drawing, text annotation, flashcards and AI-generated quizzes.</p>
+        <div class="project-tech">
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Vite</span>
+          <span class="tech-pill">Tailwind</span>
+          <span class="tech-pill">Supabase</span>
+        </div>
+        <div class="project-links">
+          <a href="./note/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+    </div>
+  </div>
+
+  <div class="project-group" style="--h:28">
+    <div class="group-head"><h3 class="group-title">Business &amp; Hospitality Websites</h3><p class="group-sub">Brand sites built for real shops and cafes.</p></div>
+    <div class="projects-track">
     <article class="project-card reveal">
       <div class="project-visual">
         <span class="tag-chip">WEB APP</span>
@@ -305,27 +352,12 @@
         </div>
       </div>
     </article>
+    </div>
+  </div>
 
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-book-open"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Inkwell Study Notebook</h3>
-        <p class="project-desc">A PDF study notebook with drawing, text annotation, flashcards and AI-generated quizzes.</p>
-        <div class="project-tech">
-          <span class="tech-pill">React</span>
-          <span class="tech-pill">Vite</span>
-          <span class="tech-pill">Tailwind</span>
-          <span class="tech-pill">Supabase</span>
-        </div>
-        <div class="project-links">
-          <a href="./note/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
+  <div class="project-group" style="--h:172">
+    <div class="group-head"><h3 class="group-title">Interactive Tools &amp; API Explorers</h3><p class="group-sub">Playful tools and live-data explorers.</p></div>
+    <div class="projects-track">
     <article class="project-card reveal">
       <div class="project-visual">
         <span class="tag-chip">WEB APP</span>
@@ -342,25 +374,6 @@
         </div>
         <div class="project-links">
           <a href="./toolkit/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">AI VISUAL</span>
-        <i class="fa-solid fa-brain"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">NEXUS AI</h3>
-        <p class="project-desc">An interactive neural network lab that visualizes a prompt travelling through the network before a response.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">Canvas</span>
-          <span class="tech-pill">AI</span>
-        </div>
-        <div class="project-links">
-          <a href="./nexus-ai/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
         </div>
       </div>
     </article>
@@ -419,7 +432,12 @@
         </div>
       </div>
     </article>
+    </div>
+  </div>
 
+  <div class="project-group" style="--h:215">
+    <div class="group-head"><h3 class="group-title">Coursework &amp; Concepts</h3><p class="group-sub">Programming practice and concept projects.</p></div>
+    <div class="projects-track">
     <article class="project-card reveal">
       <div class="project-visual">
         <span class="tag-chip">DESKTOP APP</span>
@@ -432,10 +450,6 @@
           <span class="tech-pill">Python</span>
           <span class="tech-pill">JSON</span>
           <span class="tech-pill">Data Handling</span>
-        </div>
-        <div class="project-links">
-          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
         </div>
       </div>
     </article>
@@ -453,10 +467,6 @@
           <span class="tech-pill">CSS</span>
           <span class="tech-pill">JavaScript</span>
         </div>
-        <div class="project-links">
-          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
       </div>
     </article>
 
@@ -473,16 +483,9 @@
           <span class="tech-pill">C#</span>
           <span class="tech-pill">C++</span>
         </div>
-        <div class="project-links">
-          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
       </div>
     </article>
-  </div>
-
-  <div class="projects-hint">
-    <i class="fa-solid fa-arrows-left-right"></i> Scroll to see more projects
+    </div>
   </div>
 </section>
 

@@ -35,51 +35,15 @@ mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => 
   hamburger.classList.remove('active');
 }));
 
-/* ---------- Cursor glow ---------- */
-const glow = document.getElementById('cursor-glow');
-if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-  window.addEventListener('mousemove', (e) => {
-    gsap.to(glow, { x: e.clientX, y: e.clientY, duration: 0.6, ease: 'power3.out' });
-  });
-}
-
-/* ---------- Magnetic buttons ---------- */
-if (!reduceMotion) {
-  document.querySelectorAll('.magnetic').forEach(el => {
-    el.addEventListener('mousemove', (e) => {
-      const r = el.getBoundingClientRect();
-      const x = e.clientX - r.left - r.width / 2;
-      const y = e.clientY - r.top - r.height / 2;
-      gsap.to(el, { x: x * 0.28, y: y * 0.35, duration: 0.4, ease: 'power3.out' });
-    });
-    el.addEventListener('mouseleave', () => {
-      gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' });
-    });
-  });
-}
-
 /* ---------- Reveal animations ---------- */
 if (!reduceMotion) {
   gsap.utils.toArray('.reveal').forEach((el, i) => {
     gsap.to(el, {
-      opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 88%' }
     });
   });
 
-  /* Section titles subtle scale-in */
-  gsap.utils.toArray('.section-title').forEach(el => {
-    gsap.fromTo(el, { scale: 0.96 }, {
-      scale: 1, duration: 1, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 90%' }
-    });
-  });
-
-  /* Hero parallax grid */
-  gsap.to('.hero-grid', {
-    yPercent: 18, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
 } else {
   document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
 }
@@ -93,37 +57,6 @@ document.querySelectorAll('.skill-bar-fill').forEach(bar => {
     onEnter: () => { bar.style.width = bar.dataset.fill + '%'; }
   });
 });
-
-/* ---------- Horizontal scroll projects ---------- */
-(function () {
-  const track = document.getElementById('projectsTrack');
-  const section = document.querySelector('.projects-pin');
-  if (!track || !section) return;
-
-  function build() {
-    ScrollTrigger.getAll().forEach(st => { if (st.vars.id === 'projScroll') st.kill(); });
-    if (window.innerWidth < 760) return; // native scroll on mobile
-
-    const scrollAmount = track.scrollWidth - window.innerWidth + 64;
-    if (scrollAmount <= 0) return;
-
-    gsap.to(track, {
-      x: -scrollAmount,
-      ease: 'none',
-      scrollTrigger: {
-        id: 'projScroll',
-        trigger: section,
-        start: 'top top',
-        end: () => '+=' + scrollAmount,
-        scrub: 0.6,
-        pin: true,
-        invalidateOnRefresh: true
-      }
-    });
-  }
-  build();
-  window.addEventListener('resize', () => { ScrollTrigger.refresh(); });
-})();
 
 /* ---------- Hero typewriter ---------- */
 (function () {
@@ -173,12 +106,3 @@ document.querySelectorAll('.skill-bar-fill').forEach(bar => {
   }
   typeLine();
 })();
-
-/* ---------- Project card spotlight (follows cursor) ---------- */
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('pointermove', (e) => {
-    const r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  });
-});
