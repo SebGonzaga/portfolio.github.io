@@ -554,3 +554,118 @@ ul{list-style:none;}
   .reveal{opacity:1 !important;transform:none !important;}
   .hero-greet .wave, .scroll-indicator i{animation:none;}
 }
+
+/* =====================================================================
+   VISUAL UPGRADE — appended layer (safe to delete to revert)
+   ===================================================================== */
+::selection{background:rgba(66,232,210,.28);color:#fff;}
+html{scrollbar-color:#27324f var(--bg);scrollbar-width:thin;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:#27324f;border-radius:10px;border:2px solid var(--bg);}
+
+/* Aurora backdrop + film grain */
+body::before{
+  content:"";position:fixed;inset:-10%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(40vmax 40vmax at 12% 8%, rgba(78,168,255,.16), transparent 60%),
+    radial-gradient(38vmax 38vmax at 88% 22%, rgba(66,232,210,.11), transparent 60%),
+    radial-gradient(45vmax 45vmax at 55% 95%, rgba(160,110,255,.10), transparent 60%);
+  animation:aurora 22s ease-in-out infinite alternate;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@keyframes aurora{from{transform:translate3d(-2%,-1%,0) scale(1);}to{transform:translate3d(3%,2%,0) scale(1.08);}}
+
+/* Headline + gradient text shimmer */
+.gradient-text{
+  background:linear-gradient(110deg,#4EA8FF,#42E8D2 40%,#A98BFF 70%,#4EA8FF);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 7s linear infinite;
+}
+@keyframes shimmer{to{background-position:220% 0;}}
+.hero-title{letter-spacing:-0.02em;text-wrap:balance;}
+.section-title{background:linear-gradient(180deg,#fff,#aab6d3);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* Buttons: glow */
+.btn-primary{box-shadow:0 10px 30px -10px rgba(66,232,210,.55), inset 0 1px 0 rgba(255,255,255,.25);}
+.btn-primary:hover{box-shadow:0 16px 40px -10px rgba(78,168,255,.75), inset 0 1px 0 rgba(255,255,255,.3);}
+.btn-ghost{backdrop-filter:blur(8px);background:rgba(255,255,255,.03);}
+
+/* Glass surfaces */
+.stat-card,.hero-panel{
+  background:linear-gradient(160deg,rgba(255,255,255,.065),rgba(255,255,255,.02));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 20px 50px -25px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.tech-pill{transition:border-color .25s,color .25s,transform .25s;}
+.project-card:hover .tech-pill{border-color:rgba(66,232,210,.35);color:var(--text-1);}
+
+/* Project cards: per-card colour, spotlight, lift */
+.project-card{
+  --h:200;--mx:50%;--my:0%;
+  position:relative;isolation:isolate;
+  background:linear-gradient(170deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.8);
+  transition:border-color .35s var(--ease),transform .45s var(--ease),box-shadow .45s var(--ease);
+}
+.project-card::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(420px circle at var(--mx) var(--my),hsla(var(--h),90%,65%,.16),transparent 60%);
+}
+.project-card:hover{
+  transform:translateY(-8px);border-color:hsla(var(--h),85%,65%,.5);
+  box-shadow:0 34px 70px -28px hsla(var(--h),90%,55%,.45);
+}
+.project-card:hover::before{opacity:1;}
+.project-visual{
+  background:
+    radial-gradient(circle at 25% 15%,hsla(var(--h),95%,62%,.38),transparent 58%),
+    radial-gradient(circle at 80% 90%,hsla(calc(var(--h) + 50),90%,60%,.26),transparent 55%),
+    linear-gradient(135deg,#0b1020,#0e1428);
+}
+.project-visual::after{ /* dotted grid */
+  content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1px);background-size:18px 18px;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000,transparent 75%);mask-image:radial-gradient(circle at 50% 50%,#000,transparent 75%);
+}
+.project-visual i{
+  position:relative;z-index:1;font-size:56px;opacity:1;
+  background:linear-gradient(160deg,#fff,hsl(var(--h),90%,75%));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 8px 22px hsla(var(--h),95%,60%,.6));
+  transition:transform .5s var(--ease);
+}
+.project-card:hover .project-visual i{transform:scale(1.14) rotate(-4deg);}
+.project-visual .tag-chip{z-index:2;backdrop-filter:blur(6px);color:hsl(var(--h),90%,75%);border-color:hsla(var(--h),90%,70%,.3);}
+.project-links a{background:rgba(255,255,255,.03);}
+.project-links a:hover{background:hsla(var(--h),90%,60%,.12);border-color:hsl(var(--h),90%,70%);color:hsl(var(--h),90%,78%);}
+
+.project-card:nth-child(1){--h:8;}    /* DIVA — red/alert */
+.project-card:nth-child(2){--h:42;}   /* Auré — gold */
+.project-card:nth-child(3){--h:24;}   /* Lihim */
+.project-card:nth-child(4){--h:28;}   /* KRAV */
+.project-card:nth-child(5){--h:265;}  /* Inkwell */
+.project-card:nth-child(6){--h:168;}  /* Pick & Race */
+.project-card:nth-child(7){--h:285;}  /* NEXUS */
+.project-card:nth-child(8){--h:130;}  /* Minecraft */
+.project-card:nth-child(9){--h:350;}  /* Pokédex */
+.project-card:nth-child(10){--h:35;}  /* SolarCircuit */
+.project-card:nth-child(n+11){--h:205;}
+
+/* Reveal: softer, with blur-in */
+.reveal{filter:blur(6px);transition:filter .9s var(--ease);}
+.reveal[style*="opacity: 1"]{filter:blur(0);}
+.reduced-motion .reveal{filter:none;}
+
+/* Timeline / cert / why cards: hover lift */
+.cert-card,.why-card,.edu-card,.skill-card{transition:transform .35s var(--ease),border-color .3s,box-shadow .35s var(--ease);}
+.cert-card:hover,.why-card:hover,.edu-card:hover,.skill-card:hover{
+  transform:translateY(-5px);border-color:rgba(66,232,210,.35);box-shadow:0 24px 50px -28px rgba(66,232,210,.35);
+}
+
+@media (prefers-reduced-motion: reduce){
+  body::before,.gradient-text{animation:none;}
+  .reveal{filter:none;}
+}

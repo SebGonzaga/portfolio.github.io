@@ -173,3 +173,12 @@ document.querySelectorAll('.skill-bar-fill').forEach(bar => {
   }
   typeLine();
 })();
+
+/* ---------- Project card spotlight (follows cursor) ---------- */
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('pointermove', (e) => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
