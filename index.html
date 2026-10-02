@@ -13,12 +13,18 @@
 
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FAF8F4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232A2B30'/%3E%3Cpath d='M42 21c-2-5-16-6-18 1-2 8 18 5 18 13 0 8-16 8-19 1' fill='none' stroke='%235FC6BA' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sebastian Gonzaga — Digital Lab">
+<meta property="og:description" content="Web, AI, systems and experiments. I build things, break things, and figure out why they broke.">
 <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<a class="skip" href="#about">Skip to content</a>
 <div id="scroll-progress"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
 <a class="now-building" href="#projects"><i></i><span><small>CURRENTLY BUILDING</small>R.A.I.N · Disaster Management System</span></a>
 <div class="modal" id="labModal" role="dialog" aria-modal="true" aria-labelledby="labTitle" hidden>
@@ -86,7 +92,7 @@
         <div class="line">  <span class="key">"currently"</span>: <span class="val">"<span id="cur">building</span>"</span>,</div>
         <div class="line">  <span class="key">"curiosity"</span>: <span class="str">true</span>,</div>
         <div class="line">  <span class="key">"time"</span>: <span class="val">"<span id="stime">--:--:--</span> PHT"</span>,</div>
-        <div class="line">  <span class="key">"status"</span>: <span class="val">"still learning, always shipping"</span></div>
+        <div class="line">  <span class="key">"status"</span>: <span class="val">"<span id="stat">still learning, always shipping</span>"</span></div>
         <div class="line">}<span class="caret"></span></div>
       </div>
     </div>
@@ -109,11 +115,11 @@
 
         <div class="about-stats">
           <div class="stat-card">
-            <div class="stat-num">8+</div>
+            <div class="stat-num">20+</div>
             <div class="stat-label">Languages &amp; Tools</div>
           </div>
           <div class="stat-card">
-            <div class="stat-num">4+</div>
+            <div class="stat-num">13</div>
             <div class="stat-label">Projects Built</div>
           </div>
         </div>
@@ -123,12 +129,15 @@
         <div class="file-tab">// about_sebastian.py</div>
         <div class="code-line"><span class="ln">1</span><span><span class="kw">class</span> <span class="fn">Developer</span>:</span></div>
         <div class="code-line"><span class="ln">2</span><span>&nbsp;&nbsp;<span class="kw">def</span> <span class="fn">__init__</span>(self):</span></div>
-        <div class="code-line"><span class="ln">3</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="st">"Sebastian Gonzaga"</span></span></div>
-        <div class="code-line"><span class="ln">4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.based_in = <span class="st">"Philippines"</span></span></div>
-        <div class="code-line"><span class="ln">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = [<span class="st">"AI"</span>, <span class="st">"Systems"</span>]</span></div>
-        <div class="code-line"><span class="ln">6</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.curious = <span class="kw">True</span></span></div>
-        <div class="code-line"><span class="ln">7</span><span></span></div>
-        <div class="code-line"><span class="ln">8</span><span>&nbsp;&nbsp;<span class="cm"># still learning, always shipping</span></span></div>
+        <div class="code-line" data-note="yes, that is me. Sebastian M. Gonzaga." tabindex="0"><span class="ln">3</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="st">"Sebastian Gonzaga"</span></span></div>
+        <div class="code-line" data-note="built somewhere in the Philippines." tabindex="0"><span class="ln">4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.based_in = <span class="st">"Philippines"</span></span></div>
+        <div class="code-line" data-note="web first, AI is what I keep poking at, systems hold it together." tabindex="0"><span class="ln">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = [<span class="st">"Web"</span>, <span class="st">"AI"</span>, <span class="st">"Systems"</span>]</span></div>
+        <div class="code-line" data-note="interfaces that move, games that react, ideas that need a prototype." tabindex="0"><span class="ln">6</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.likes = [<span class="st">"building"</span>, <span class="st">"animation"</span>, <span class="st">"games"</span>]</span></div>
+        <div class="code-line" data-note="a script that would not run, a database that would not connect." tabindex="0"><span class="ln">7</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.learns = [<span class="st">"break"</span>, <span class="st">"debug"</span>, <span class="st">"ship"</span>]</span></div>
+        <div class="code-line" data-note="curiosity = true. not up for debate." tabindex="0"><span class="ln">8</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.curious = <span class="kw">True</span></span></div>
+        <div class="code-line"><span class="ln">9</span><span></span></div>
+        <div class="code-line" data-note="one project, one bug, one late night at a time." tabindex="0"><span class="ln">10</span><span>&nbsp;&nbsp;<span class="cm"># still learning, always shipping</span></span></div>
+        <p class="code-note" id="codeNote">hover a line</p>
       </div>
     </div>
   </div>
@@ -154,6 +163,7 @@
     <p class="eyebrow">03 / Projects</p>
     <h2 class="section-title">Artifacts from the lab.</h2>
     <p class="section-sub">Thirteen things I've built. Scroll to move through them; each one is designed for what it is.</p>
+    <p class="swipe-hint" aria-hidden="true">swipe the panels →</p>
   </div>
   <div class="showcase"><div class="showcase-track" id="showTrack"></div></div>
 </section>
@@ -182,47 +192,51 @@
     <div class="timeline">
       <div class="timeline-item reveal">
         <div class="timeline-dot"></div>
-        <p class="timeline-tag">On-the-Job Training</p>
-        <h3 class="timeline-title">Database &amp; System Development</h3>
-        <p class="timeline-desc">Worked on building and maintaining structured databases, designing simple internal systems, and supporting day-to-day technical tasks during OJT.</p>
-        <div class="timeline-skills">
+        <details class="tl" open>
+          <summary><p class="timeline-tag">On-the-Job Training</p><h3 class="timeline-title">Database &amp; System Development</h3><i class="tl-plus" aria-hidden="true"></i></summary>
+          <p class="timeline-desc">Worked on building and maintaining structured databases, designing simple internal systems, and supporting day-to-day technical tasks during OJT.</p>
+          <div class="timeline-skills">
           <span class="tech-pill">SQL</span>
           <span class="tech-pill">System Design</span>
         </div>
+        </details>
       </div>
 
       <div class="timeline-item reveal">
         <div class="timeline-dot"></div>
-        <p class="timeline-tag">Applied Work</p>
-        <h3 class="timeline-title">Excel &amp; Office Automation</h3>
-        <p class="timeline-desc">Automated repetitive spreadsheet and office tasks, building templates and simple scripts to speed up reporting and data entry.</p>
-        <div class="timeline-skills">
+        <details class="tl">
+          <summary><p class="timeline-tag">Applied Work</p><h3 class="timeline-title">Excel &amp; Office Automation</h3><i class="tl-plus" aria-hidden="true"></i></summary>
+          <p class="timeline-desc">Automated repetitive spreadsheet and office tasks, building templates and simple scripts to speed up reporting and data entry.</p>
+          <div class="timeline-skills">
           <span class="tech-pill">Excel</span>
           <span class="tech-pill">Automation</span>
         </div>
+        </details>
       </div>
 
       <div class="timeline-item reveal">
         <div class="timeline-dot"></div>
-        <p class="timeline-tag">Coursework &amp; Practice</p>
-        <h3 class="timeline-title">Programming &amp; Problem Solving</h3>
-        <p class="timeline-desc">Practiced core programming and algorithmic problem solving across Python, Java, and C++ through class projects and independent practice.</p>
-        <div class="timeline-skills">
+        <details class="tl">
+          <summary><p class="timeline-tag">Coursework &amp; Practice</p><h3 class="timeline-title">Programming &amp; Problem Solving</h3><i class="tl-plus" aria-hidden="true"></i></summary>
+          <p class="timeline-desc">Practiced core programming and algorithmic problem solving across Python, Java, and C++ through class projects and independent practice.</p>
+          <div class="timeline-skills">
           <span class="tech-pill">Python</span>
           <span class="tech-pill">Java</span>
           <span class="tech-pill">C++</span>
         </div>
+        </details>
       </div>
 
       <div class="timeline-item reveal">
         <div class="timeline-dot"></div>
-        <p class="timeline-tag">Ongoing</p>
-        <h3 class="timeline-title">Technical Problem Solving</h3>
-        <p class="timeline-desc">Continuously debugging, researching, and troubleshooting — treating every stuck moment as part of the process rather than a setback.</p>
-        <div class="timeline-skills">
+        <details class="tl">
+          <summary><p class="timeline-tag">Ongoing</p><h3 class="timeline-title">Technical Problem Solving</h3><i class="tl-plus" aria-hidden="true"></i></summary>
+          <p class="timeline-desc">Continuously debugging, researching, and troubleshooting — treating every stuck moment as part of the process rather than a setback.</p>
+          <div class="timeline-skills">
           <span class="tech-pill">Debugging</span>
           <span class="tech-pill">Research</span>
         </div>
+        </details>
       </div>
     </div>
   </div>
@@ -260,67 +274,14 @@
       <p class="section-sub">Certifications, seminars, and recognitions from courses, training programs, and events I've attended.</p>
     </div>
 
-    <div class="cert-grid">
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
-          <span class="cert-type">Certificate</span>
-        </div>
-        <h3 class="cert-title">Python for Everybody Specialization</h3>
-        <p class="cert-issuer">Coursera · University of Michigan</p>
-        <p class="cert-date">2025</p>
-      </div>
-
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
-          <span class="cert-type">Certificate</span>
-        </div>
-        <h3 class="cert-title">Google IT Support Professional Certificate</h3>
-        <p class="cert-issuer">Google · Coursera</p>
-        <p class="cert-date">2024</p>
-      </div>
-
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-          <span class="cert-type">Seminar</span>
-        </div>
-        <h3 class="cert-title">Introduction to Artificial Intelligence &amp; Machine Learning</h3>
-        <p class="cert-issuer">PUP IT Department Seminar</p>
-        <p class="cert-date">2025</p>
-      </div>
-
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-          <span class="cert-type">Seminar</span>
-        </div>
-        <h3 class="cert-title">Cybersecurity Awareness &amp; Data Privacy</h3>
-        <p class="cert-issuer">Industry Guest Lecture Series</p>
-        <p class="cert-date">2024</p>
-      </div>
-
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-trophy"></i></div>
-          <span class="cert-type">Achievement</span>
-        </div>
-        <h3 class="cert-title">Campus Hackathon — Finalist</h3>
-        <p class="cert-issuer">PUP Information Technology Society</p>
-        <p class="cert-date">2025</p>
-      </div>
-
-      <div class="cert-card reveal">
-        <div class="cert-top">
-          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-          <span class="cert-type">Seminar</span>
-        </div>
-        <h3 class="cert-title">Database Design &amp; Management Workshop</h3>
-        <p class="cert-issuer">PUP IT Department Seminar</p>
-        <p class="cert-date">2024</p>
-      </div>
-    </div>
+    <ul class="cert-list">
+      <li class="cert-row reveal"><span class="cert-type">Certificate</span><div><h3 class="cert-title">Python for Everybody Specialization</h3><p class="cert-issuer">Coursera · University of Michigan</p></div><span class="cert-date">2025</span></li>
+      <li class="cert-row reveal"><span class="cert-type">Certificate</span><div><h3 class="cert-title">Google IT Support Professional Certificate</h3><p class="cert-issuer">Google · Coursera</p></div><span class="cert-date">2024</span></li>
+      <li class="cert-row reveal"><span class="cert-type">Seminar</span><div><h3 class="cert-title">Introduction to Artificial Intelligence &amp; Machine Learning</h3><p class="cert-issuer">PUP IT Department Seminar</p></div><span class="cert-date">2025</span></li>
+      <li class="cert-row reveal"><span class="cert-type">Seminar</span><div><h3 class="cert-title">Cybersecurity Awareness &amp; Data Privacy</h3><p class="cert-issuer">Industry Guest Lecture Series</p></div><span class="cert-date">2024</span></li>
+      <li class="cert-row reveal"><span class="cert-type">Achievement</span><div><h3 class="cert-title">Campus Hackathon — Finalist</h3><p class="cert-issuer">PUP Information Technology Society</p></div><span class="cert-date">2025</span></li>
+      <li class="cert-row reveal"><span class="cert-type">Seminar</span><div><h3 class="cert-title">Database Design &amp; Management Workshop</h3><p class="cert-issuer">PUP IT Department Seminar</p></div><span class="cert-date">2024</span></li>
+    </ul>
   </div>
 </section>
 
@@ -375,11 +336,14 @@
   <div class="container contact-wrap">
     <p class="eyebrow" style="justify-content:center;">09 / Contact</p>
     <h2 class="contact-title"><span class="ln"><span>LET'S BUILD</span></span><span class="ln"><span>SOMETHING</span></span><span class="ln"><span class="gradient-text">INTERESTING.</span></span></h2>
-    <p class="contact-sub reveal">Available for web development, frontend, AI-assisted development, freelance projects and creative web experiences.</p>
+    <span class="contact-rule" aria-hidden="true"></span>
+    <p class="contact-sub reveal">Available for:</p>
+    <ul class="avail reveal"><li>Web development</li><li>Frontend</li><li>AI-assisted development</li><li>Freelance projects</li><li>Creative web experiences</li></ul>
     <div class="contact-actions reveal">
       <a href="mailto:sebastian.gonzaga@example.com" class="btn btn-primary magnetic"><span>Email me</span> <i class="fa-solid fa-arrow-right"></i></a>
       <a href="#" class="btn btn-ghost magnetic"><span>Download resume</span></a>
     </div>
+    <button type="button" class="copy-mail magnetic reveal" id="copyMail" data-email="sebastian.gonzaga@example.com" data-cursor="COPY"><span>sebastian.gonzaga@example.com</span><em>copy</em></button>
     <div class="contact-social reveal">
       <a href="mailto:sebastian.gonzaga@example.com" class="social-icon magnetic" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       <a href="#" class="social-icon magnetic" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -392,7 +356,7 @@
 <footer class="footer">
   <div class="container footer-inner">
     <p>Sebastian M. Gonzaga © 2026</p>
-    <p>Built with curiosity and code.</p>
+    <p>one project, one bug, one late night at a time.</p>
   </div>
 </footer>
 
