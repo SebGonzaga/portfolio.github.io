@@ -8,16 +8,27 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FAF8F4">
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div id="scroll-progress"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span id="cursorLabel"></span></div>
+<a class="now-building" href="#projects"><i></i><span><small>CURRENTLY BUILDING</small>R.A.I.N · Disaster Management System</span></a>
+<div class="modal" id="labModal" role="dialog" aria-modal="true" aria-labelledby="labTitle" hidden>
+  <div class="modal-card">
+    <div class="modal-bar"><span id="labCode">LAB / 001</span><button type="button" id="labClose" aria-label="Close experiment">Close ✕</button></div>
+    <canvas id="labCanvas" width="720" height="380"></canvas>
+    <div class="modal-foot"><b id="labTitle"></b><span id="labHint"></span></div>
+  </div>
+</div>
+
 
 <!-- ============================= NAV ============================= -->
 <header class="navbar" id="navbar">
@@ -28,11 +39,13 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#lab">Lab</a>
       <a href="#experience">Experience</a>
       <a href="#certificates">Certificates</a>
       <a href="#contact">Contact</a>
     </nav>
     <a href="#contact" class="nav-cta">Let's talk</a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></button>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -44,6 +57,7 @@
   <a href="#about">About</a>
   <a href="#skills">Skills</a>
   <a href="#projects">Projects</a>
+      <a href="#lab">Lab</a>
   <a href="#experience">Experience</a>
   <a href="#certificates">Certificates</a>
   <a href="#contact">Contact</a>
@@ -54,28 +68,30 @@
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="container hero-inner">
     <div>
-      <p class="hero-greet"><span class="wave">👋</span> Hi, I'm Sebastian.</p>
-      <h1 class="hero-title">IT Student &amp;<br>Aspiring <span class="gradient-text">AI Developer</span></h1>
-      <p class="hero-desc">I build software, explore AI, and create practical digital solutions — one project, one bug, one late night at a time.</p>
+      <p class="hero-meta"><span>LAB_01</span><span>PH / <b id="clock">--:--:--</b></span><span class="live"><i></i>online</span></p>
+      <h1 class="hero-name"><span class="ln"><span>SEBASTIAN</span></span><span class="ln"><span class="gradient-text">GONZAGA</span></span></h1>
+      <p class="hero-tags">WEB / AI / SYSTEMS / EXPERIMENTS</p>
+      <p class="hero-desc">I build things, break things, and figure out why they broke.</p>
       <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary magnetic"><span>View My Projects</span> <i class="fa-solid fa-arrow-right"></i></a>
-        <a href="#contact" class="btn btn-ghost magnetic"><span>Contact Me</span></a>
+        <a href="#projects" class="btn btn-primary magnetic"><span>Enter the projects</span> <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#lab" class="btn btn-ghost magnetic"><span>Open the lab</span></a>
       </div>
     </div>
-
-    <div class="hero-panel reveal">
-      <div class="hero-panel-bar">
-        <span style="background:#FF6259"></span><span style="background:#FFC12F"></span><span style="background:#3EC94F"></span>
-        <span class="hero-panel-title">status.json</span>
+    <div class="hero-panel">
+      <div class="hero-panel-bar"><span></span><span></span><span></span><span class="hero-panel-title">status.json</span></div>
+      <div class="hero-panel-body" id="status">
+        <div class="line">{</div>
+        <div class="line">  <span class="key">"name"</span>: <span class="val">"Sebastian Gonzaga"</span>,</div>
+        <div class="line">  <span class="key">"focus"</span>: [<span class="str">"Web"</span>, <span class="str">"AI"</span>, <span class="str">"Systems"</span>],</div>
+        <div class="line">  <span class="key">"currently"</span>: <span class="val">"<span id="cur">building</span>"</span>,</div>
+        <div class="line">  <span class="key">"curiosity"</span>: <span class="str">true</span>,</div>
+        <div class="line">  <span class="key">"time"</span>: <span class="val">"<span id="stime">--:--:--</span> PHT"</span>,</div>
+        <div class="line">  <span class="key">"status"</span>: <span class="val">"still learning, always shipping"</span></div>
+        <div class="line">}<span class="caret"></span></div>
       </div>
-      <div class="hero-panel-body" id="typewriter"></div>
     </div>
   </div>
-
-  <div class="scroll-indicator">
-    <span>SCROLL TO EXPLORE</span>
-    <i class="fa-solid fa-chevron-down"></i>
-  </div>
+  <div class="scroll-indicator"><span>SCROLL TO EXPLORE</span><i class="fa-solid fa-chevron-down"></i></div>
 </section>
 
 <!-- ============================= ABOUT ============================= -->
@@ -124,368 +140,32 @@
 <section class="section" id="skills">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">02 / Skills</p>
-      <h2 class="section-title">Tools I reach for.</h2>
-      <p class="section-sub">A working toolkit across programming, web, data, and applied AI — sharpened through coursework and self-driven projects.</p>
+      <p class="eyebrow">02 / Toolkit</p>
+      <h2 class="section-title">What's on the workbench.</h2>
+      <p class="section-sub">No percentages. Just the things I actually reach for, and the order I learned them.</p>
     </div>
-
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <div class="skill-card-head">
-          <span class="skill-cat-label">Programming</span>
-          <i class="fa-solid fa-code skill-cat-icon"></i>
-        </div>
-        <div class="skill-list">
-          <div class="skill-item">
-            <div class="skill-row"><span>Python</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="92"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>Java</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="80"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>C++</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="72"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>C#</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="70"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-card-head">
-          <span class="skill-cat-label">Web</span>
-          <i class="fa-solid fa-globe skill-cat-icon"></i>
-        </div>
-        <div class="skill-list">
-          <div class="skill-item">
-            <div class="skill-row"><span>HTML</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="90"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>CSS</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="85"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>JavaScript</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="78"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-card-head">
-          <span class="skill-cat-label">Database</span>
-          <i class="fa-solid fa-database skill-cat-icon"></i>
-        </div>
-        <div class="skill-list">
-          <div class="skill-item">
-            <div class="skill-row"><span>SQL</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="82"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>JSON</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="88"></div></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="skill-card reveal">
-        <div class="skill-card-head">
-          <span class="skill-cat-label">AI &amp; Systems</span>
-          <i class="fa-solid fa-brain skill-cat-icon"></i>
-        </div>
-        <div class="skill-list">
-          <div class="skill-item">
-            <div class="skill-row"><span>AI Development</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="75"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>System Development</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="80"></div></div>
-          </div>
-          <div class="skill-item">
-            <div class="skill-row"><span>Database Development</span></div>
-            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="83"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="toolkit"><div class="tk-row reveal"><span class="tk-label">PROGRAMMING</span><div class="tk-pills"><span class="pill" data-cursor="">Python</span><span class="pill" data-cursor="">Java</span><span class="pill" data-cursor="">C++</span><span class="pill" data-cursor="">C#</span></div></div><div class="tk-row reveal"><span class="tk-label">WEB</span><div class="tk-pills"><span class="pill" data-cursor="">HTML</span><span class="pill" data-cursor="">CSS</span><span class="pill" data-cursor="">JavaScript</span><span class="pill" data-cursor="">React</span><span class="pill" data-cursor="">GSAP</span></div></div><div class="tk-row reveal"><span class="tk-label">BACKEND / DATA</span><div class="tk-pills"><span class="pill" data-cursor="">PHP</span><span class="pill" data-cursor="">SQL</span><span class="pill" data-cursor="">MySQL</span><span class="pill" data-cursor="">Firebase</span><span class="pill" data-cursor="">Supabase</span></div></div><div class="tk-row reveal"><span class="tk-label">AI</span><div class="tk-pills"><span class="pill" data-cursor="">OpenAI</span><span class="pill" data-cursor="">Gemini</span><span class="pill" data-cursor="">APIs</span><span class="pill" data-cursor="">AI-assisted development</span></div></div><div class="tk-row reveal"><span class="tk-label">TOOLS</span><div class="tk-pills"><span class="pill" data-cursor="">Git</span><span class="pill" data-cursor="">GitHub</span><span class="pill" data-cursor="">VS Code</span><span class="pill" data-cursor="">Vercel</span></div></div></div>
   </div>
 </section>
 
 <!-- ============================= PROJECTS ============================= -->
-<section class="section" id="projects">
+<section id="projects">
+  <div class="container section-head reveal" style="padding-top:120px">
+    <p class="eyebrow">03 / Projects</p>
+    <h2 class="section-title">Artifacts from the lab.</h2>
+    <p class="section-sub">Thirteen things I've built. Scroll to move through them; each one is designed for what it is.</p>
+  </div>
+  <div class="showcase"><div class="showcase-track" id="showTrack"></div></div>
+</section>
+
+<section class="section" id="lab">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">03 / Projects</p>
-      <h2 class="section-title">Things I've built.</h2>
-      <p class="section-sub">Grouped by theme: AI systems, business sites, interactive tools, and coursework.</p>
+      <p class="eyebrow">04 / Lab</p>
+      <h2 class="section-title">Things I built because I wanted to see if I could.</h2>
+      <p class="section-sub">Small, unfinished, occasionally weird. Press run.</p>
     </div>
-  </div>
-
-  <div class="project-group" style="--h:255">
-    <div class="group-head"><h3 class="group-title">AI &amp; Intelligent Systems</h3><p class="group-sub">Systems that use AI to guide, teach or explain.</p></div>
-    <div class="projects-track">
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">AI SYSTEM</span>
-        <i class="fa-solid fa-triangle-exclamation"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">DIVA / RAIN</h3>
-        <p class="project-desc">An AI-powered disaster preparedness and response guidance system that helps users understand risks and respond quickly during emergencies.</p>
-        <div class="project-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">AI Development</span>
-          <span class="tech-pill">System Design</span>
-        </div>
-        <div class="project-links">
-          <a href="./diva/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">AI VISUAL</span>
-        <i class="fa-solid fa-brain"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">NEXUS AI</h3>
-        <p class="project-desc">An interactive neural network lab that visualizes a prompt travelling through the network before a response.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">Canvas</span>
-          <span class="tech-pill">AI</span>
-        </div>
-        <div class="project-links">
-          <a href="./nexus-ai/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-book-open"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Inkwell Study Notebook</h3>
-        <p class="project-desc">A PDF study notebook with drawing, text annotation, flashcards and AI-generated quizzes.</p>
-        <div class="project-tech">
-          <span class="tech-pill">React</span>
-          <span class="tech-pill">Vite</span>
-          <span class="tech-pill">Tailwind</span>
-          <span class="tech-pill">Supabase</span>
-        </div>
-        <div class="project-links">
-          <a href="./note/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-    </div>
-  </div>
-
-  <div class="project-group" style="--h:28">
-    <div class="group-head"><h3 class="group-title">Business &amp; Hospitality Websites</h3><p class="group-sub">Brand sites built for real shops and cafes.</p></div>
-    <div class="projects-track">
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-gem"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Auré</h3>
-        <p class="project-desc">A luxury jewelry boutique site with a collection showcase and an AI concierge stylist chat.</p>
-        <div class="project-tech">
-          <span class="tech-pill">HTML</span>
-          <span class="tech-pill">CSS</span>
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">OpenAI API</span>
-        </div>
-        <div class="project-links">
-          <a href="./aure/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-mug-hot"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Lihim Café</h3>
-        <p class="project-desc">A responsive restaurant website with a photo menu, weekend breakfast, location details and an AI chat assistant.</p>
-        <div class="project-tech">
-          <span class="tech-pill">HTML</span>
-          <span class="tech-pill">CSS</span>
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">Gemini API</span>
-        </div>
-        <div class="project-links">
-          <a href="./lihim-cafe/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-mug-hot"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">KRĀV Cafe Tanauan</h3>
-        <p class="project-desc">A cafe website with a photo menu, interior and drive-thru gallery, delivery links and an AI chat assistant.</p>
-        <div class="project-tech">
-          <span class="tech-pill">HTML</span>
-          <span class="tech-pill">CSS</span>
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">Gemini API</span>
-        </div>
-        <div class="project-links">
-          <a href="./krav-cafe/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-    </div>
-  </div>
-
-  <div class="project-group" style="--h:172">
-    <div class="group-head"><h3 class="group-title">Interactive Tools &amp; API Explorers</h3><p class="group-sub">Playful tools and live-data explorers.</p></div>
-    <div class="projects-track">
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-dice"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Pick &amp; Race</h3>
-        <p class="project-desc">Classroom name pickers: duck and rocket races, spinning wheels, claw machine, brackets and more.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">PixiJS</span>
-          <span class="tech-pill">GSAP</span>
-          <span class="tech-pill">Canvas</span>
-        </div>
-        <div class="project-links">
-          <a href="./toolkit/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">API</span>
-        <i class="fa-solid fa-cube"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Minecraft Block Explorer</h3>
-        <p class="project-desc">Browse and search Minecraft blocks pulled live from a public API.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">REST API</span>
-        </div>
-        <div class="project-links">
-          <a href="./minecraft-explorer/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">API</span>
-        <i class="fa-solid fa-terminal"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Pokédex Live Terminal</h3>
-        <p class="project-desc">A terminal-style Pokédex that fetches live Pokémon data and artwork from PokéAPI.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">REST API</span>
-        </div>
-        <div class="project-links">
-          <a href="./pokedex/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">API</span>
-        <i class="fa-solid fa-sun"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">SolarCircuit</h3>
-        <p class="project-desc">A space-themed explorer of the solar system with animated, API-driven planet data.</p>
-        <div class="project-tech">
-          <span class="tech-pill">JavaScript</span>
-          <span class="tech-pill">anime.js</span>
-          <span class="tech-pill">REST API</span>
-        </div>
-        <div class="project-links">
-          <a href="./solarcircuit/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
-        </div>
-      </div>
-    </article>
-    </div>
-  </div>
-
-  <div class="project-group" style="--h:215">
-    <div class="group-head"><h3 class="group-title">Coursework &amp; Concepts</h3><p class="group-sub">Programming practice and concept projects.</p></div>
-    <div class="projects-track">
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">DESKTOP APP</span>
-        <i class="fa-solid fa-boxes-stacked"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Inventory Management System</h3>
-        <p class="project-desc">A Python-based inventory system using JSON data storage to track stock, updates, and records without needing a full database setup.</p>
-        <div class="project-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">JSON</span>
-          <span class="tech-pill">Data Handling</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">WEB APP</span>
-        <i class="fa-solid fa-shoe-prints"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">Step Tracking Web App</h3>
-        <p class="project-desc">A concept web application for tracking daily steps and fitness activity, designed with a simple interface for logging and reviewing progress.</p>
-        <div class="project-tech">
-          <span class="tech-pill">HTML</span>
-          <span class="tech-pill">CSS</span>
-          <span class="tech-pill">JavaScript</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reveal">
-      <div class="project-visual">
-        <span class="tag-chip">OOP</span>
-        <i class="fa-solid fa-diagram-project"></i>
-      </div>
-      <div class="project-body">
-        <h3 class="project-title">OOP Applications</h3>
-        <p class="project-desc">A collection of Java, C#, and C++ projects demonstrating core object-oriented programming principles like inheritance, encapsulation, and polymorphism.</p>
-        <div class="project-tech">
-          <span class="tech-pill">Java</span>
-          <span class="tech-pill">C#</span>
-          <span class="tech-pill">C++</span>
-        </div>
-      </div>
-    </article>
-    </div>
+    <div class="lab-grid" id="labGrid"></div>
   </div>
 </section>
 
@@ -495,7 +175,7 @@
 <section class="section" id="experience">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">04 / Experience</p>
+      <p class="eyebrow">05 / Experience</p>
       <h2 class="section-title">Where I've applied it.</h2>
     </div>
 
@@ -554,7 +234,7 @@
 <section class="section" id="education">
   <div class="container">
     <div class="section-head reveal" style="margin:0 auto 56px;text-align:center;">
-      <p class="eyebrow" style="justify-content:center;">05 / Education</p>
+      <p class="eyebrow" style="justify-content:center;">06 / Education</p>
       <h2 class="section-title">Where it started.</h2>
     </div>
 
@@ -575,7 +255,7 @@
 <section class="section" id="certificates">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">06 / Certificates &amp; Achievements</p>
+      <p class="eyebrow">07 / Certificates &amp; Achievements</p>
       <h2 class="section-title">Proof I keep showing up.</h2>
       <p class="section-sub">Certifications, seminars, and recognitions from courses, training programs, and events I've attended.</p>
     </div>
@@ -650,7 +330,7 @@
 <section class="section" id="why">
   <div class="container">
     <div class="section-head reveal">
-      <p class="eyebrow">07 / Why Work With Me</p>
+      <p class="eyebrow">08 / Why Work With Me</p>
       <h2 class="section-title">How I actually work.</h2>
       <p class="section-sub">Less about buzzwords, more about how I show up on a team and a problem.</p>
     </div>
@@ -693,20 +373,19 @@
 <!-- ============================= CONTACT ============================= -->
 <section class="section" id="contact">
   <div class="container contact-wrap">
-    <p class="eyebrow" style="justify-content:center;">08 / Contact</p>
-    <h2 class="contact-title reveal">Let's build something <span class="gradient-text">together.</span></h2>
-    <p class="contact-sub reveal">Open to internships, freelance work, and anyone who wants to build something practical. Reach out — I reply fast.</p>
-
+    <p class="eyebrow" style="justify-content:center;">09 / Contact</p>
+    <h2 class="contact-title"><span class="ln"><span>LET'S BUILD</span></span><span class="ln"><span>SOMETHING</span></span><span class="ln"><span class="gradient-text">INTERESTING.</span></span></h2>
+    <p class="contact-sub reveal">Available for web development, frontend, AI-assisted development, freelance projects and creative web experiences.</p>
     <div class="contact-actions reveal">
-      <a href="mailto:sebastian.gonzaga@example.com" class="btn btn-primary magnetic"><span>Email Me</span> <i class="fa-solid fa-arrow-right"></i></a>
-      <a href="#" class="btn btn-ghost magnetic"><span>Download Resume</span></a>
+      <a href="mailto:sebastian.gonzaga@example.com" class="btn btn-primary magnetic"><span>Email me</span> <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#" class="btn btn-ghost magnetic"><span>Download resume</span></a>
     </div>
-
     <div class="contact-social reveal">
       <a href="mailto:sebastian.gonzaga@example.com" class="social-icon magnetic" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
       <a href="#" class="social-icon magnetic" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
       <a href="#" class="social-icon magnetic" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
     </div>
+    <p class="contact-tiny">built somewhere in the Philippines · curiosity = true</p>
   </div>
 </section>
 

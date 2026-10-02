@@ -1,108 +1,166 @@
+/* Sebastian / Digital Lab — behaviour */
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine = matchMedia('(pointer: fine)').matches;
 document.documentElement.classList.remove('no-js');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(reduceMotion){ document.documentElement.classList.add('reduced-motion'); }
-
+if (reduce) document.documentElement.classList.add('reduced-motion');
 gsap.registerPlugin(ScrollTrigger);
 
-/* ---------- Navbar scroll state ---------- */
-const navbar = document.getElementById('navbar');
-ScrollTrigger.create({
-  start: 'top -80',
-  onUpdate: (self) => {
-    if (window.scrollY > 40) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
-  }
-});
+/* navbar, progress, mobile menu */
+const navbar = $('#navbar');
+addEventListener('scroll', () => navbar.classList.toggle('scrolled', scrollY > 40), { passive: true });
+gsap.to('#scroll-progress', { width: '100%', ease: 'none', scrollTrigger: { scrub: 0.3, start: 0, end: () => document.documentElement.scrollHeight - innerHeight } });
+const burger = $('#hamburger'), mm = $('#mobileMenu');
+burger.addEventListener('click', () => { const o = mm.classList.toggle('open'); burger.classList.toggle('active'); burger.setAttribute('aria-expanded', o); });
+$$('a', mm).forEach(a => a.addEventListener('click', () => { mm.classList.remove('open'); burger.classList.remove('active'); }));
 
-/* ---------- Scroll progress bar ---------- */
-const progressBar = document.getElementById('scroll-progress');
-gsap.to(progressBar, {
-  width: '100%',
-  ease: 'none',
-  scrollTrigger: { scrub: 0.3, start: 0, end: () => document.documentElement.scrollHeight - window.innerHeight }
-});
-
-/* ---------- Mobile menu ---------- */
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-hamburger.addEventListener('click', () => {
-  const open = mobileMenu.classList.toggle('open');
-  hamburger.classList.toggle('active');
-  hamburger.setAttribute('aria-expanded', open);
-});
-mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  mobileMenu.classList.remove('open');
-  hamburger.classList.remove('active');
-}));
-
-/* ---------- Reveal animations ---------- */
-if (!reduceMotion) {
-  gsap.utils.toArray('.reveal').forEach((el, i) => {
-    gsap.to(el, {
-      opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 88%' }
-    });
+/* theme toggle (light default) */
+(function () {
+  const root = document.documentElement, btn = $('#themeToggle'), meta = $('meta[name="theme-color"]');
+  const sync = () => { const d = root.getAttribute('data-theme') === 'dark'; btn.setAttribute('aria-pressed', d); btn.setAttribute('aria-label', d ? 'Switch to light mode' : 'Switch to dark mode'); if (meta) meta.content = d ? '#15171C' : '#FAF8F4'; };
+  sync();
+  btn.addEventListener('click', () => {
+    const d = root.getAttribute('data-theme') === 'dark';
+    root.classList.add('theme-anim');
+    d ? root.removeAttribute('data-theme') : root.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('theme', d ? 'light' : 'dark'); } catch (e) {}
+    sync(); setTimeout(() => root.classList.remove('theme-anim'), 350);
   });
+})();
 
-} else {
-  document.querySelectorAll('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+/* reveals */
+if (!reduce) {
+  $$('.reveal').forEach(el => gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 90%' } }));
+  const t = $('.contact-title');
+  if (t) gsap.from($$('.ln > span', t), { yPercent: 110, duration: 0.8, stagger: 0.12, ease: 'power3.out', scrollTrigger: { trigger: t, start: 'top 85%' } });
+} else $$('.reveal').forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+
+/* hero entrance (~1.6s) */
+if (!reduce) {
+  gsap.timeline({ defaults: { ease: 'power3.out' } })
+    .from('.hero-grid', { opacity: 0, duration: 0.5 })
+    .from('.hero-meta > *', { y: 10, opacity: 0, stagger: 0.06, duration: 0.35 }, '-=0.2')
+    .from('.hero-name .ln > span', { yPercent: 110, duration: 0.7, stagger: 0.1 }, '-=0.1')
+    .from('.hero-tags, .hero-desc, .hero-actions', { y: 16, opacity: 0, stagger: 0.08, duration: 0.5 }, '-=0.35')
+    .from('.hero-panel', { y: 20, opacity: 0, duration: 0.5 }, '-=0.4')
+    .from('.now-building', { x: -20, opacity: 0, duration: 0.4 }, '-=0.2');
 }
 
-/* ---------- Skill bar fill on view ---------- */
-document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-  ScrollTrigger.create({
-    trigger: bar,
-    start: 'top 90%',
-    once: true,
-    onEnter: () => { bar.style.width = bar.dataset.fill + '%'; }
+/* live status panel */
+(function () {
+  const fmt = () => new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Manila' });
+  const tick = () => { $('#clock').textContent = fmt(); $('#stime').textContent = fmt(); };
+  tick(); setInterval(tick, 1000);
+  const words = ['building', 'debugging', 'experimenting', 'shipping', 'learning'], cur = $('#cur'); let i = 0;
+  if (!reduce) setInterval(() => {
+    i = (i + 1) % words.length;
+    gsap.to(cur, { opacity: 0, y: -4, duration: 0.2, onComplete: () => { cur.textContent = words[i]; gsap.fromTo(cur, { opacity: 0, y: 4 }, { opacity: 1, y: 0, duration: 0.25 }); } });
+  }, 3200);
+})();
+
+/* cursor (fine pointers only) */
+if (fine && !reduce) {
+  const c = $('#cursor'), lab = $('#cursorLabel'); document.body.classList.add('has-cursor');
+  const xq = gsap.quickTo(c, 'x', { duration: 0.3, ease: 'power3' }), yq = gsap.quickTo(c, 'y', { duration: 0.3, ease: 'power3' });
+  addEventListener('pointermove', e => { xq(e.clientX); yq(e.clientY); });
+  document.addEventListener('pointerover', e => {
+    const t = e.target.closest('[data-cursor],a,button'), l = t && t.dataset.cursor;
+    c.className = 'cursor' + (l ? ' label' : t ? ' link' : ''); lab.textContent = l || '';
   });
+  $$('.magnetic').forEach(el => {
+    el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); gsap.to(el, { x: (e.clientX - r.left - r.width / 2) * 0.22, y: (e.clientY - r.top - r.height / 2) * 0.28, duration: 0.4, ease: 'power3.out' }); });
+    el.addEventListener('pointerleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.45)' }));
+  });
+}
+
+/* projects */
+const P = [
+  ['AI SYSTEM', 'R.A.I.N', 'Risk Awareness & Intelligent Network', 'AI-assisted disaster preparedness: hazard monitoring, verified alerts and calm guidance in English and Filipino.', ['AI', 'Maps', 'Weather', 'Supabase'], './diva/index.html', 'rain', 8, 'RAIN'],
+  ['BRAND SITE', 'Auré', 'Confidence in every detail', 'A luxury jewellery boutique with a collection showcase and an AI concierge stylist.', ['HTML', 'CSS', 'JavaScript', 'OpenAI'], './aure/index.html', 'aure', 42, 'Auré'],
+  ['BRAND SITE', 'Lihim Café', 'A hidden garden café', 'A quiet, editorial restaurant site: photo menu, weekend breakfast, location and an assistant.', ['HTML', 'CSS', 'JavaScript', 'Gemini'], './lihim-cafe/index.html', 'cafe', 24, 'Lihim'],
+  ['BRAND SITE', 'KRĀV Cafe Tanauan', 'Satisfy your krāvings', 'A lively cafe site with menu photos, an interior and drive-thru gallery and delivery links.', ['HTML', 'CSS', 'JavaScript', 'Gemini'], './krav-cafe/index.html', 'cafe', 28, 'KRĀV'],
+  ['STUDY TOOL', 'Inkwell Study Notebook', 'Notes that quiz you back', 'A PDF notebook with drawing, annotation, flashcards and AI-generated quizzes.', ['React', 'Vite', 'Tailwind', 'Supabase'], './note/index.html', 'ink', 265, 'Ink'],
+  ['GAME TOOL', 'Pick & Race', 'Fourteen ways to pick a name', 'Classroom pickers: duck and rocket races, wheels, claw machine, brackets and more.', ['JavaScript', 'PixiJS', 'GSAP', 'Canvas'], './toolkit/index.html', 'race', 172, 'P&R'],
+  ['VISUAL LAB', 'NEXUS AI', 'Visualize intelligence', 'A neural network lab that shows a prompt travelling through the network before a reply.', ['JavaScript', 'Canvas', 'AI'], './nexus-ai/index.html', 'nexus', 285, 'NX'],
+  ['API EXPLORER', 'Minecraft Block Explorer', 'Search the whole block set', 'Browse and search Minecraft blocks pulled live from a public API.', ['JavaScript', 'REST API'], './minecraft-explorer/index.html', 'block', 130, '▦'],
+  ['API EXPLORER', 'Pokédex Live Terminal', 'Live data, terminal feel', 'A terminal-style Pokédex that fetches live Pokémon data and artwork from PokéAPI.', ['JavaScript', 'REST API'], './pokedex/index.html', 'poke', 350, '◓'],
+  ['API EXPLORER', 'SolarCircuit', 'A wander through the solar system', 'A space-themed explorer with animated, API-driven planet data.', ['JavaScript', 'anime.js', 'REST API'], './solarcircuit/index.html', 'solar', 35, '◎'],
+  ['COURSEWORK', 'Inventory Management System', '', 'Track stock, updates and records with JSON storage instead of a full database.', ['Python', 'JSON'], '', 'concept', 215, '{ }'],
+  ['COURSEWORK', 'Step Tracking Web App', '', 'A concept app for logging daily steps and reviewing progress.', ['HTML', 'CSS', 'JavaScript'], '', 'concept', 215, '+1'],
+  ['COURSEWORK', 'OOP Applications', '', 'Java, C# and C++ projects built around inheritance, encapsulation and polymorphism.', ['Java', 'C#', 'C++'], '', 'concept', 215, 'class'],
+];
+const track = $('#showTrack');
+track.innerHTML = P.map((p, i) => {
+  const n = String(i + 1).padStart(2, '0'), [cat, name, sub, desc, tech, href, st, h, mark] = p;
+  return `<article class="panel" data-style="${st}" style="--h:${h}">
+  <div class="pv"><div class="pv-art"><b>${mark}</b></div><span class="pv-tag">${cat}</span><span class="pv-n">${n}</span></div>
+  <div class="pi"><p class="pi-cat">${n} / ${cat}</p><h3>${name}</h3>${sub ? `<p class="pi-sub">${sub}</p>` : ''}
+  <p class="pi-desc">${desc}</p><ul class="pi-tech">${tech.map(t => `<li>${t}</li>`).join('')}</ul>
+  ${href ? `<a class="pi-open" href="${href}" target="_blank" rel="noopener" data-cursor="OPEN ↗">OPEN PROJECT <span>↗</span></a>` : `<span class="pi-open off">IN THE ARCHIVE</span>`}</div></article>`;
+}).join('');
+if (fine) track.addEventListener('pointermove', e => {
+  const pv = e.target.closest('.pv'); if (!pv) return; const r = pv.getBoundingClientRect();
+  pv.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5) * 2); pv.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5) * 2);
+});
+gsap.matchMedia().add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
+  const dist = () => track.scrollWidth - innerWidth + 48;
+  gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.showcase', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.5, invalidateOnRefresh: true } });
 });
 
-/* ---------- Hero typewriter ---------- */
+/* lab */
+const col = {};
+function springDots(c, ctx) {
+  const W = c.width, H = c.height; let m = { x: W / 2, y: H / 2 }, raf;
+  const d = [...Array(44)].map((_, i) => ({ x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, a: i * 2.4, r: 10 + i * 3.4 }));
+  const mv = e => { const b = c.getBoundingClientRect(); m.x = (e.clientX - b.left) * W / b.width; m.y = (e.clientY - b.top) * H / b.height; };
+  c.addEventListener('pointermove', mv);
+  (function f(t) {
+    ctx.clearRect(0, 0, W, H);
+    d.forEach(p => { p.vx = (p.vx + (m.x + Math.cos(p.a + t / 900) * p.r - p.x) * 0.06) * 0.82; p.vy = (p.vy + (m.y + Math.sin(p.a + t / 900) * p.r - p.y) * 0.06) * 0.82; p.x += p.vx; p.y += p.vy; ctx.beginPath(); ctx.arc(p.x, p.y, 3.2, 0, 7); ctx.fillStyle = col.a; ctx.fill(); });
+    raf = requestAnimationFrame(f);
+  })(0);
+  return () => { cancelAnimationFrame(raf); c.removeEventListener('pointermove', mv); };
+}
+function gravityDrop(c, ctx) {
+  const W = c.width, H = c.height, b = []; let raf;
+  const add = e => { const r = c.getBoundingClientRect(); b.push({ x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height, vx: (Math.random() - 0.5) * 4, vy: 0, r: 8 + Math.random() * 12 }); if (b.length > 60) b.shift(); };
+  c.addEventListener('pointerdown', add);
+  (function f() {
+    ctx.clearRect(0, 0, W, H);
+    b.forEach(p => { p.vy += 0.35; p.x += p.vx; p.y += p.vy; if (p.y + p.r > H) { p.y = H - p.r; p.vy *= -0.72; p.vx *= 0.98; } if (p.x < p.r || p.x > W - p.r) { p.vx *= -1; p.x = Math.min(W - p.r, Math.max(p.r, p.x)); } ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.globalAlpha = 0.75; ctx.fillStyle = col.a; ctx.fill(); ctx.globalAlpha = 1; });
+    raf = requestAnimationFrame(f);
+  })();
+  return () => { cancelAnimationFrame(raf); c.removeEventListener('pointerdown', add); };
+}
+function neuralPulse(c, ctx) {
+  const W = c.width, H = c.height, L = [4, 6, 6, 3], N = []; let t = 0, raf;
+  L.forEach((k, i) => { for (let j = 0; j < k; j++) N.push({ l: i, x: W * (0.12 + i * 0.25), y: H * ((j + 1) / (k + 1)) }); });
+  const go = () => { t = 0; }; c.addEventListener('pointerdown', go);
+  (function f() {
+    ctx.clearRect(0, 0, W, H); ctx.lineWidth = 1; ctx.strokeStyle = col.line;
+    N.forEach(a => N.forEach(b => { if (b.l === a.l + 1) { ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); } }));
+    N.forEach(n => { const g = t < 0 ? 0 : Math.max(0, 1 - Math.abs(t - n.l)); ctx.beginPath(); ctx.arc(n.x, n.y, 7 + g * 6, 0, 7); ctx.globalAlpha = 0.35 + 0.65 * g; ctx.fillStyle = g > 0.05 ? col.b : col.a; ctx.fill(); ctx.globalAlpha = 1; });
+    if (t >= 0) { t += 0.035; if (t > L.length + 0.5) t = -1; }
+    raf = requestAnimationFrame(f);
+  })();
+  return () => { cancelAnimationFrame(raf); c.removeEventListener('pointerdown', go); };
+}
+const LAB = [
+  ['001', 'Spring Dots', 'Forty-four dots chasing your cursor on springs.', 'move your cursor over the canvas', springDots],
+  ['002', 'Gravity Drop', 'Click to drop things. Watch them bounce.', 'click anywhere to drop a ball', gravityDrop],
+  ['003', 'Neural Pulse', 'A signal travelling a tiny network, layer by layer.', 'click to send another pulse', neuralPulse],
+];
+$('#labGrid').innerHTML = LAB.map(l => `<article class="lab-card reveal"><p class="lab-code">LAB / ${l[0]}</p><h3>${l[1]}</h3><p>${l[2]}</p><p class="lab-status"><i></i>STATUS: EXPERIMENTAL</p><button type="button" class="btn btn-ghost run" data-lab="${l[0]}" data-cursor="RUN"><span>RUN</span></button></article>`).join('');
 (function () {
-  const el = document.getElementById('typewriter');
-  const lines = [
-    { html: '<span class="key">"name"</span>: <span class="val">"Sebastian M. Gonzaga"</span>' },
-    { html: '<span class="key">"role"</span>: <span class="val">"IT Student / AI Dev"</span>' },
-    { html: '<span class="key">"location"</span>: <span class="val">"Philippines"</span>' },
-    { html: '<span class="key">"school"</span>: <span class="val">"PUP"</span>' },
-    { html: '<span class="key">"stack"</span>: [<span class="str">"Python"</span>, <span class="str">"Java"</span>, <span class="str">"SQL"</span>, <span class="str">"AI"</span>]' },
-    { html: '<span class="key">"status"</span>: <span class="val">"building &amp; learning"</span>' },
-  ];
-
-  if (reduceMotion) {
-    el.innerHTML = lines.map(l => `<div class="line">${l.html}</div>`).join('');
-    return;
-  }
-
-  let i = 0;
-  function typeLine() {
-    if (i >= lines.length) {
-      const caret = document.createElement('span');
-      caret.className = 'caret';
-      el.appendChild(caret);
-      return;
-    }
-    const div = document.createElement('div');
-    div.className = 'line';
-    el.appendChild(div);
-    const full = lines[i].html;
-    // reveal via char-count on plain text length, then set final HTML for correct markup
-    const plain = full.replace(/<[^>]+>/g, '');
-    let charCount = 0;
-    const totalChars = plain.length;
-    const speed = 14;
-    const interval = setInterval(() => {
-      charCount++;
-      const ratio = charCount / totalChars;
-      div.textContent = plain.slice(0, charCount);
-      if (charCount >= totalChars) {
-        clearInterval(interval);
-        div.innerHTML = full;
-        i++;
-        setTimeout(typeLine, 160);
-      }
-    }, speed);
-  }
-  typeLine();
+  const modal = $('#labModal'), cv = $('#labCanvas'), ctx = cv.getContext('2d'); let stop = null, opener = null;
+  const close = () => { if (stop) stop(); stop = null; modal.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus(); };
+  $('#labGrid').addEventListener('click', e => {
+    const b = e.target.closest('.run'); if (!b) return; const l = LAB.find(x => x[0] === b.dataset.lab); opener = b;
+    const s = getComputedStyle(document.documentElement); col.a = s.getPropertyValue('--blue').trim(); col.b = s.getPropertyValue('--cyan').trim(); col.line = s.getPropertyValue('--border-strong').trim();
+    $('#labCode').textContent = 'LAB / ' + l[0]; $('#labTitle').textContent = l[1]; $('#labHint').textContent = l[3];
+    modal.hidden = false; document.body.style.overflow = 'hidden'; stop = l[4](cv, ctx); $('#labClose').focus();
+  });
+  $('#labClose').addEventListener('click', close);
+  modal.addEventListener('pointerdown', e => { if (e.target === modal) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) close(); });
 })();
