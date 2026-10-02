@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sebastian M. Gonzaga — IT Student &amp; Aspiring AI Developer</title>
+<meta name="description" content="Portfolio of Sebastian M. Gonzaga, an IT student and aspiring AI/software developer from the Philippines, building systems, AI tools, and practical digital solutions.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="cursor-glow" aria-hidden="true"></div>
+<div id="scroll-progress"></div>
+
+<!-- ============================= NAV ============================= -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="logo"><span class="dot"></span> sebastian.dev</a>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Let's talk</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#projects">Projects</a>
+  <a href="#experience">Experience</a>
+  <a href="#certificates">Certificates</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero" id="home">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div>
+      <p class="hero-greet"><span class="wave">👋</span> Hi, I'm Sebastian.</p>
+      <h1 class="hero-title">IT Student &amp;<br>Aspiring <span class="gradient-text">AI Developer</span></h1>
+      <p class="hero-desc">I build software, explore AI, and create practical digital solutions — one project, one bug, one late night at a time.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary magnetic"><span>View My Projects</span> <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn btn-ghost magnetic"><span>Contact Me</span></a>
+      </div>
+    </div>
+
+    <div class="hero-panel reveal">
+      <div class="hero-panel-bar">
+        <span style="background:#FF6259"></span><span style="background:#FFC12F"></span><span style="background:#3EC94F"></span>
+        <span class="hero-panel-title">status.json</span>
+      </div>
+      <div class="hero-panel-body" id="typewriter"></div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>SCROLL TO EXPLORE</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- ============================= ABOUT ============================= -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">01 / About</p>
+      <h2 class="section-title">A bit about how I think.</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm an Information Technology student who enjoys building systems, experimenting with AI, and learning new technologies. I like turning ideas into practical applications while continuously improving my development skills.</p>
+        <p>Most of what I know came from breaking things first — a script that wouldn't run, a database that wouldn't connect — and staying with the problem until it made sense. That habit is what pulls me toward AI and systems work now.</p>
+
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-num">8+</div>
+            <div class="stat-label">Languages &amp; Tools</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">4+</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual reveal">
+        <div class="file-tab">// about_sebastian.py</div>
+        <div class="code-line"><span class="ln">1</span><span><span class="kw">class</span> <span class="fn">Developer</span>:</span></div>
+        <div class="code-line"><span class="ln">2</span><span>&nbsp;&nbsp;<span class="kw">def</span> <span class="fn">__init__</span>(self):</span></div>
+        <div class="code-line"><span class="ln">3</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.name = <span class="st">"Sebastian Gonzaga"</span></span></div>
+        <div class="code-line"><span class="ln">4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.based_in = <span class="st">"Philippines"</span></span></div>
+        <div class="code-line"><span class="ln">5</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.focus = [<span class="st">"AI"</span>, <span class="st">"Systems"</span>]</span></div>
+        <div class="code-line"><span class="ln">6</span><span>&nbsp;&nbsp;&nbsp;&nbsp;self.curious = <span class="kw">True</span></span></div>
+        <div class="code-line"><span class="ln">7</span><span></span></div>
+        <div class="code-line"><span class="ln">8</span><span>&nbsp;&nbsp;<span class="cm"># still learning, always shipping</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ============================= SKILLS ============================= -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">02 / Skills</p>
+      <h2 class="section-title">Tools I reach for.</h2>
+      <p class="section-sub">A working toolkit across programming, web, data, and applied AI — sharpened through coursework and self-driven projects.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-head">
+          <span class="skill-cat-label">Programming</span>
+          <i class="fa-solid fa-code skill-cat-icon"></i>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <div class="skill-row"><span>Python</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="92"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>Java</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="80"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>C++</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="72"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>C#</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="70"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-head">
+          <span class="skill-cat-label">Web</span>
+          <i class="fa-solid fa-globe skill-cat-icon"></i>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <div class="skill-row"><span>HTML</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>CSS</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="85"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>JavaScript</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="78"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-head">
+          <span class="skill-cat-label">Database</span>
+          <i class="fa-solid fa-database skill-cat-icon"></i>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <div class="skill-row"><span>SQL</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="82"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>JSON</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="88"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-card-head">
+          <span class="skill-cat-label">AI &amp; Systems</span>
+          <i class="fa-solid fa-brain skill-cat-icon"></i>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <div class="skill-row"><span>AI Development</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="75"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>System Development</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="80"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-row"><span>Database Development</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-fill="83"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= PROJECTS ============================= -->
+<section class="section projects-pin" id="projects" style="padding-right:0;padding-left:0;">
+  <div class="container" style="margin-bottom:0;">
+    <div class="section-head reveal">
+      <p class="eyebrow">03 / Projects</p>
+      <h2 class="section-title">Things I've built.</h2>
+      <p class="section-sub">A mix of AI, systems, and applied programming projects — scroll to browse.</p>
+    </div>
+  </div>
+
+  <div class="projects-track" id="projectsTrack">
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">AI SYSTEM</span>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">DIVA / RAIN</h3>
+        <p class="project-desc">An AI-powered disaster preparedness and response guidance system that helps users understand risks and respond quickly during emergencies.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">AI Development</span>
+          <span class="tech-pill">System Design</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/diva/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-gem"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Auré</h3>
+        <p class="project-desc">A luxury jewelry boutique site with a collection showcase and an AI concierge stylist chat.</p>
+        <div class="project-tech">
+          <span class="tech-pill">HTML</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">OpenAI API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/aure/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-mug-hot"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Lihim Café</h3>
+        <p class="project-desc">A responsive restaurant website with a photo menu, weekend breakfast, location details and an AI chat assistant.</p>
+        <div class="project-tech">
+          <span class="tech-pill">HTML</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">Gemini API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/lihim-cafe/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-mug-hot"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">KRĀV Cafe Tanauan</h3>
+        <p class="project-desc">A cafe website with a photo menu, interior and drive-thru gallery, delivery links and an AI chat assistant.</p>
+        <div class="project-tech">
+          <span class="tech-pill">HTML</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">Gemini API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/krav-cafe/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-book-open"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Inkwell Study Notebook</h3>
+        <p class="project-desc">A PDF study notebook with drawing, text annotation, flashcards and AI-generated quizzes.</p>
+        <div class="project-tech">
+          <span class="tech-pill">React</span>
+          <span class="tech-pill">Vite</span>
+          <span class="tech-pill">Tailwind</span>
+          <span class="tech-pill">Supabase</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/note/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-dice"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Pick &amp; Race</h3>
+        <p class="project-desc">Classroom name pickers: duck and rocket races, spinning wheels, claw machine, brackets and more.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">PixiJS</span>
+          <span class="tech-pill">GSAP</span>
+          <span class="tech-pill">Canvas</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/toolkit/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">AI VISUAL</span>
+        <i class="fa-solid fa-brain"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">NEXUS AI</h3>
+        <p class="project-desc">An interactive neural network lab that visualizes a prompt travelling through the network before a response.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">Canvas</span>
+          <span class="tech-pill">AI</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/nexus-ai/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">API</span>
+        <i class="fa-solid fa-cube"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Minecraft Block Explorer</h3>
+        <p class="project-desc">Browse and search Minecraft blocks pulled live from a public API.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/minecraft-explorer/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">API</span>
+        <i class="fa-solid fa-terminal"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Pokédex Live Terminal</h3>
+        <p class="project-desc">A terminal-style Pokédex that fetches live Pokémon data and artwork from PokéAPI.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/pokedex/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">API</span>
+        <i class="fa-solid fa-sun"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">SolarCircuit</h3>
+        <p class="project-desc">A space-themed explorer of the solar system with animated, API-driven planet data.</p>
+        <div class="project-tech">
+          <span class="tech-pill">JavaScript</span>
+          <span class="tech-pill">anime.js</span>
+          <span class="tech-pill">REST API</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/solarcircuit/index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">DESKTOP APP</span>
+        <i class="fa-solid fa-boxes-stacked"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Inventory Management System</h3>
+        <p class="project-desc">A Python-based inventory system using JSON data storage to track stock, updates, and records without needing a full database setup.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">JSON</span>
+          <span class="tech-pill">Data Handling</span>
+        </div>
+        <div class="project-links">
+          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">WEB APP</span>
+        <i class="fa-solid fa-shoe-prints"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Step Tracking Web App</h3>
+        <p class="project-desc">A concept web application for tracking daily steps and fitness activity, designed with a simple interface for logging and reviewing progress.</p>
+        <div class="project-tech">
+          <span class="tech-pill">HTML</span>
+          <span class="tech-pill">CSS</span>
+          <span class="tech-pill">JavaScript</span>
+        </div>
+        <div class="project-links">
+          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal">
+      <div class="project-visual">
+        <span class="tag-chip">OOP</span>
+        <i class="fa-solid fa-diagram-project"></i>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">OOP Applications</h3>
+        <p class="project-desc">A collection of Java, C#, and C++ projects demonstrating core object-oriented programming principles like inheritance, encapsulation, and polymorphism.</p>
+        <div class="project-tech">
+          <span class="tech-pill">Java</span>
+          <span class="tech-pill">C#</span>
+          <span class="tech-pill">C++</span>
+        </div>
+        <div class="project-links">
+          <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="#"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="projects-hint">
+    <i class="fa-solid fa-arrows-left-right"></i> Scroll to see more projects
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ============================= EXPERIENCE ============================= -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">04 / Experience</p>
+      <h2 class="section-title">Where I've applied it.</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <p class="timeline-tag">On-the-Job Training</p>
+        <h3 class="timeline-title">Database &amp; System Development</h3>
+        <p class="timeline-desc">Worked on building and maintaining structured databases, designing simple internal systems, and supporting day-to-day technical tasks during OJT.</p>
+        <div class="timeline-skills">
+          <span class="tech-pill">SQL</span>
+          <span class="tech-pill">System Design</span>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <p class="timeline-tag">Applied Work</p>
+        <h3 class="timeline-title">Excel &amp; Office Automation</h3>
+        <p class="timeline-desc">Automated repetitive spreadsheet and office tasks, building templates and simple scripts to speed up reporting and data entry.</p>
+        <div class="timeline-skills">
+          <span class="tech-pill">Excel</span>
+          <span class="tech-pill">Automation</span>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <p class="timeline-tag">Coursework &amp; Practice</p>
+        <h3 class="timeline-title">Programming &amp; Problem Solving</h3>
+        <p class="timeline-desc">Practiced core programming and algorithmic problem solving across Python, Java, and C++ through class projects and independent practice.</p>
+        <div class="timeline-skills">
+          <span class="tech-pill">Python</span>
+          <span class="tech-pill">Java</span>
+          <span class="tech-pill">C++</span>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <p class="timeline-tag">Ongoing</p>
+        <h3 class="timeline-title">Technical Problem Solving</h3>
+        <p class="timeline-desc">Continuously debugging, researching, and troubleshooting — treating every stuck moment as part of the process rather than a setback.</p>
+        <div class="timeline-skills">
+          <span class="tech-pill">Debugging</span>
+          <span class="tech-pill">Research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ============================= EDUCATION ============================= -->
+<section class="section" id="education">
+  <div class="container">
+    <div class="section-head reveal" style="margin:0 auto 56px;text-align:center;">
+      <p class="eyebrow" style="justify-content:center;">05 / Education</p>
+      <h2 class="section-title">Where it started.</h2>
+    </div>
+
+    <div class="edu-card reveal">
+      <div class="edu-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div>
+        <h3 class="edu-school">Polytechnic University of the Philippines</h3>
+        <p class="edu-degree">Diploma in Information Technology</p>
+        <p class="edu-meta">FOCUS: SOFTWARE &amp; AI DEVELOPMENT · PHILIPPINES</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ============================= CERTIFICATES ============================= -->
+<section class="section" id="certificates">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">06 / Certificates &amp; Achievements</p>
+      <h2 class="section-title">Proof I keep showing up.</h2>
+      <p class="section-sub">Certifications, seminars, and recognitions from courses, training programs, and events I've attended.</p>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
+          <span class="cert-type">Certificate</span>
+        </div>
+        <h3 class="cert-title">Python for Everybody Specialization</h3>
+        <p class="cert-issuer">Coursera · University of Michigan</p>
+        <p class="cert-date">2025</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
+          <span class="cert-type">Certificate</span>
+        </div>
+        <h3 class="cert-title">Google IT Support Professional Certificate</h3>
+        <p class="cert-issuer">Google · Coursera</p>
+        <p class="cert-date">2024</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <span class="cert-type">Seminar</span>
+        </div>
+        <h3 class="cert-title">Introduction to Artificial Intelligence &amp; Machine Learning</h3>
+        <p class="cert-issuer">PUP IT Department Seminar</p>
+        <p class="cert-date">2025</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <span class="cert-type">Seminar</span>
+        </div>
+        <h3 class="cert-title">Cybersecurity Awareness &amp; Data Privacy</h3>
+        <p class="cert-issuer">Industry Guest Lecture Series</p>
+        <p class="cert-date">2024</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-trophy"></i></div>
+          <span class="cert-type">Achievement</span>
+        </div>
+        <h3 class="cert-title">Campus Hackathon — Finalist</h3>
+        <p class="cert-issuer">PUP Information Technology Society</p>
+        <p class="cert-date">2025</p>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-top">
+          <div class="cert-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+          <span class="cert-type">Seminar</span>
+        </div>
+        <h3 class="cert-title">Database Design &amp; Management Workshop</h3>
+        <p class="cert-issuer">PUP IT Department Seminar</p>
+        <p class="cert-date">2024</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ============================= WHY WORK WITH ME ============================= -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">07 / Why Work With Me</p>
+      <h2 class="section-title">How I actually work.</h2>
+      <p class="section-sub">Less about buzzwords, more about how I show up on a team and a problem.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <i class="fa-solid fa-seedling why-icon"></i>
+        <h3 class="why-title">Willing to Learn</h3>
+        <p class="why-desc">I'd rather ask a question and learn it right than pretend I already know.</p>
+      </div>
+      <div class="why-card reveal">
+        <i class="fa-solid fa-shuffle why-icon"></i>
+        <h3 class="why-title">Adaptable</h3>
+        <p class="why-desc">Comfortable switching languages, tools, or plans when the project needs it.</p>
+      </div>
+      <div class="why-card reveal">
+        <i class="fa-solid fa-puzzle-piece why-icon"></i>
+        <h3 class="why-title">Problem Solver</h3>
+        <p class="why-desc">I like sitting with a hard bug longer than I probably should — and I usually get there.</p>
+      </div>
+      <div class="why-card reveal">
+        <i class="fa-solid fa-people-group why-icon"></i>
+        <h3 class="why-title">Team Player</h3>
+        <p class="why-desc">I communicate early, share progress often, and don't let people guess where I'm at.</p>
+      </div>
+      <div class="why-card reveal">
+        <i class="fa-solid fa-magnifying-glass why-icon"></i>
+        <h3 class="why-title">Curious by Default</h3>
+        <p class="why-desc">New tools, new frameworks, new corners of AI — I want to know how they work.</p>
+      </div>
+      <div class="why-card reveal">
+        <i class="fa-solid fa-handshake why-icon"></i>
+        <h3 class="why-title">Well-Rounded</h3>
+        <p class="why-desc">Just as comfortable in technical deep-dives as in non-technical, people-facing work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CONTACT ============================= -->
+<section class="section" id="contact">
+  <div class="container contact-wrap">
+    <p class="eyebrow" style="justify-content:center;">08 / Contact</p>
+    <h2 class="contact-title reveal">Let's build something <span class="gradient-text">together.</span></h2>
+    <p class="contact-sub reveal">Open to internships, freelance work, and anyone who wants to build something practical. Reach out — I reply fast.</p>
+
+    <div class="contact-actions reveal">
+      <a href="mailto:sebastian.gonzaga@example.com" class="btn btn-primary magnetic"><span>Email Me</span> <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#" class="btn btn-ghost magnetic"><span>Download Resume</span></a>
+    </div>
+
+    <div class="contact-social reveal">
+      <a href="mailto:sebastian.gonzaga@example.com" class="social-icon magnetic" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      <a href="#" class="social-icon magnetic" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="#" class="social-icon magnetic" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>Sebastian M. Gonzaga © 2026</p>
+    <p>Built with curiosity and code.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
