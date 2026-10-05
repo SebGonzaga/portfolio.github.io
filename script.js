@@ -141,23 +141,37 @@ const P = [
   ['COURSEWORK', 'Step Tracking Web App', '', 'A concept app for logging daily steps and reviewing progress.', ['HTML', 'CSS', 'JavaScript'], '', 'concept', 215, '+1'],
   ['COURSEWORK', 'OOP Applications', '', 'Java, C# and C++ projects built around inheritance, encapsulation and polymorphism.', ['Java', 'C#', 'C++'], '', 'concept', 215, 'class'],
 ];
-const track = $('#showTrack');
-track.innerHTML = P.map((p, i) => {
+const GROUPS = [
+  ['all', 'All', null],
+  ['ai', 'AI & Systems', ['R.A.I.N', 'NEXUS AI', 'Inkwell Study Notebook']],
+  ['brand', 'Brand Sites', ['Auré', 'Lihim Café', 'KRĀV Cafe Tanauan']],
+  ['tools', 'Tools & Explorers', ['Pick & Race', 'Minecraft Block Explorer', 'Pokédex Live Terminal', 'SolarCircuit']],
+  ['school', 'Coursework', ['Inventory Management System', 'Step Tracking Web App', 'OOP Applications']],
+];
+const track = $('#showTrack'), tabs = $('#projTabs');
+const card = (p, i) => {
   const n = String(i + 1).padStart(2, '0'), [cat, name, sub, desc, tech, href, st, h, mark, src] = p;
-  return `<article class="panel" data-style="${st}" style="--h:${h}">
+  return `<article class="panel pcard" data-style="${st}" data-name="${name}" style="--h:${h}">
   ${href ? `<a class="pv" href="${href}" target="_blank" rel="noopener" tabindex="-1" aria-label="Open ${name}" data-cursor="OPEN ↗">` : '<div class="pv">'}<div class="pv-art"><b>${mark}</b></div><span class="pv-tag">${cat}</span><span class="pv-n">${n}</span>${href ? '</a>' : '</div>'}
-  <div class="pi"><p class="pi-cat">${n} / ${cat}</p><h3>${name}</h3>${sub ? `<p class="pi-sub">${sub}</p>` : ''}
+  <div class="pi"><h3>${name}</h3>${sub ? `<p class="pi-sub">${sub}</p>` : ''}
   <p class="pi-desc">${desc}</p><ul class="pi-tech">${tech.map(t => `<li>${t}</li>`).join('')}</ul>
-  <div class="pi-actions">${href ? `<a class="pi-open" href="${href}" target="_blank" rel="noopener" data-cursor="OPEN ↗">OPEN PROJECT <span>↗</span></a>` : `<span class="pi-open off">IN THE ARCHIVE</span>`}${src ? `<a class="pi-src" href="${src}" target="_blank" rel="noopener">SOURCE ↗</a>` : ''}</div></div></article>`;
-}).join('');
+  <div class="pi-actions">${href ? `<a class="pi-open" href="${href}" target="_blank" rel="noopener" data-cursor="OPEN ↗">OPEN <span>↗</span></a>` : `<span class="pi-open off">IN THE ARCHIVE</span>`}${src ? `<a class="pi-src" href="${src}" target="_blank" rel="noopener">SOURCE ↗</a>` : ''}</div></div></article>`;
+};
+const cards = P.map(card);
+function showGroup(id) {
+  const g = GROUPS.find(x => x[0] === id);
+  $$('button', tabs).forEach(b => { const on = b.dataset.g === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  track.innerHTML = P.map((p, i) => (!g[2] || g[2].includes(p[1])) ? cards[i] : '').join('');
+  if (!reduce) gsap.from($$('.pcard', track), { opacity: 0, y: 18, duration: 0.45, stagger: 0.06, ease: 'power2.out', clearProps: 'all' });
+  ScrollTrigger.refresh();
+}
+tabs.innerHTML = GROUPS.map(g => `<button type="button" role="tab" data-g="${g[0]}" aria-selected="false">${g[1]}<em>${g[2] ? g[2].length : P.length}</em></button>`).join('');
+tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) showGroup(b.dataset.g); });
 if (fine) track.addEventListener('pointermove', e => {
   const pv = e.target.closest('.pv'); if (!pv) return; const r = pv.getBoundingClientRect();
   pv.style.setProperty('--px', ((e.clientX - r.left) / r.width - 0.5) * 2); pv.style.setProperty('--py', ((e.clientY - r.top) / r.height - 0.5) * 2);
 });
-gsap.matchMedia().add('(min-width: 900px) and (prefers-reduced-motion: no-preference)', () => {
-  const dist = () => track.scrollWidth - innerWidth + 48;
-  gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.showcase', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 0.5, invalidateOnRefresh: true } });
-});
+showGroup('all');
 
 /* lab */
 const col = {};
